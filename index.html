@@ -1,0 +1,2017 @@
+<!DOCTYPE html>
+<!--
+  Matrice Parametrică — Taxonomia Analizei Urbane
+  Instrument pedagogic de structurare a conceptului arhitectural
+
+  Autor:     Prof. Bogdan Șerbănoiu
+  Copyright: © 2025–2026 Bogdan Șerbănoiu. Toate drepturile rezervate.
+
+  Reproducerea, distribuirea sau modificarea acestui instrument
+  fără acordul scris al autorului sunt interzise.
+-->
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Prof. Bogdan Șerbănoiu">
+<meta name="copyright" content="© 2025–2026 Bogdan Șerbănoiu. Toate drepturile rezervate.">
+<meta name="description" content="Matrice Parametrică — Taxonomia Analizei Urbane. Instrument pedagogic de structurare a conceptului arhitectural. Autor: Prof. Bogdan Șerbănoiu.">
+<meta name="creator" content="Bogdan Șerbănoiu">
+<meta name="rights" content="Copyright © 2025–2026 Bogdan Șerbănoiu. All rights reserved.">
+<title>Matrice Parametrică — Analiza Urbană · Prof. Bogdan Șerbănoiu</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.27.0/plotly.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Arial',sans-serif;background:#F8F9FC}
+:root{
+  --c1:#1F3864;--c2:#2E4B8C;
+  --ha:#8B0000;--ha-l:#FFEBEE;--hc:#7B4100;--hc-l:#FFF3CD;
+  --fl:#2E4B8C;--fl-l:#E3EEFF;--ng:#1F6B3E;--ng-l:#E8F5E9;
+  --od:#8B0000;--od-l:#FFF0F0;--oc:#1E5799;--oc-l:#E8F0FF;
+  --oo:#4A235A;--oo-l:#F3EEF8;--of:#7B4100;--of-l:#FFF8EE;
+  --bg:#F8F9FC;--border:#D8DCE8;--text:#1A1A2E;--muted:#6B7280;
+}
+
+/* HEADER */
+.hdr{background:var(--c1);color:#fff;padding:11px 18px;position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.htxt{flex:1;min-width:180px}
+.htxt h1{font-size:13px;font-weight:700}
+.htxt p{font-size:9.5px;opacity:.7;margin-top:1px}
+.hform{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.hin{height:29px;border:1px solid rgba(255,255,255,.3);border-radius:5px;padding:0 8px;font-size:10px;font-family:inherit;background:rgba(255,255,255,.12);color:#fff}
+.hin::placeholder{color:rgba(255,255,255,.5)}
+.hin:focus{outline:2px solid rgba(255,255,255,.4)}
+.expbtn{height:29px;padding:0 13px;border-radius:5px;border:2px solid #4CAF50;background:#4CAF50;color:#fff;font-size:10px;font-weight:700;cursor:pointer;transition:all .15s;white-space:nowrap}
+.expbtn:hover{background:#388E3C;border-color:#388E3C;transform:translateY(-1px)}
+.expbtn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.exp2btn{height:29px;padding:0 10px;border-radius:5px;border:1px solid rgba(255,255,255,.4);background:rgba(255,255,255,.1);color:#fff;font-size:10px;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap}
+.exp2btn:hover{background:rgba(255,255,255,.2)}
+
+/* TABS */
+.tabs{display:flex;overflow-x:auto}
+.tabs-phases{background:#fff;border-bottom:1px solid var(--border)}
+.tabs-viz{background:#1A1D2E;border-bottom:1px solid #2A2E3F}
+.viz-label{display:flex;align-items:center;padding:0 10px;font-size:8px;font-weight:700;color:#5A6A80;letter-spacing:1px;white-space:nowrap}
+.tab{flex:1;min-width:80px;padding:7px 7px 6px;border-right:1px solid var(--border);cursor:pointer;transition:background .15s}
+.tab:last-child{border-right:none}
+.tab:hover{background:var(--bg)}
+.tab.on{background:var(--c2);color:#fff}
+.phase-tab.on{background:var(--c2);color:#fff}
+.viz-tab{background:#1A1D2E;color:#8899AA;border-right:1px solid #2A2E3F}
+.viz-tab:hover{background:#252A38;color:#CCC}
+.viz-tab.on{background:#3B6B9E;color:#fff}
+.viz-tab .tl{font-size:12px}
+.viz-tab .tn{font-size:10px}
+.viz-tab .tc{color:#5A6A80}
+.tl{font-size:8.5px;font-weight:700;letter-spacing:.5px;opacity:.6;margin-bottom:1px}
+.tab.on .tl{opacity:.8;color:#fff}
+.tn{font-size:11px;font-weight:600}
+.tc{font-size:8.5px;margin-top:2px;opacity:.55}
+
+/* CARDS */
+.main{padding:10px 18px}
+.card{background:#fff;border-radius:9px;border:1px solid var(--border);overflow:hidden;margin-bottom:7px}
+.ch{padding:8px 12px 7px;display:flex;align-items:center;gap:7px;cursor:pointer;user-select:none}
+.ch:hover{background:var(--bg)}
+.cdot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.cttl{font-size:11px;font-weight:700;flex:1}
+.cbdg{font-size:9px;padding:1px 6px;border-radius:10px;font-weight:600}
+.carr{font-size:10px;color:var(--muted);transition:transform .2s}
+.carr.open{transform:rotate(180deg)}
+.cb{padding:0 12px 9px;display:none}
+.cb.open{display:block}
+
+/* PARAM BLOCKS */
+.pb{border-bottom:1px solid #F0F2F8;padding:5px 0 4px}
+.pb:last-child{border-bottom:none}
+.pt{display:flex;align-items:flex-start;gap:4px;flex-wrap:wrap}
+.pnm{font-size:10.5px;font-weight:600;flex:1;min-width:150px;line-height:1.3;padding-top:1px}
+.pnt{font-size:8.5px;color:var(--muted);font-style:italic;margin-top:3px;padding-left:11px;border-left:2px solid #E8E8E8;line-height:1.3}
+.tbdg{font-size:7.5px;padding:1px 3px;border-radius:3px;font-weight:700;white-space:nowrap;flex-shrink:0;margin-top:2px}
+.psel{display:flex;gap:2px;flex-shrink:0}
+.psb{width:22px;height:20px;border-radius:4px;border:1px solid var(--border);background:var(--bg);font-size:9.5px;font-weight:700;cursor:pointer;transition:all .12s;color:var(--muted)}
+.psb:hover{border-color:#888;color:#333}
+.psb.s{color:#fff;border-color:transparent}
+.s0{background:#9E9E9E}.s1{background:#AB47BC}.s2{background:#42A5F5}
+.s3{background:#66BB6A}.s4{background:#FDD835;color:#444!important}.s5{background:#FB8C00}
+.osel{display:flex;gap:2px;flex-shrink:0}
+.ob{font-size:7.5px;padding:2px 4px;border-radius:4px;border:1px solid var(--border);background:var(--bg);cursor:pointer;font-weight:700;color:var(--muted);transition:all .1s}
+.ob:hover{border-color:#888}
+.ob.sD{background:var(--od-l);border-color:var(--ha);color:var(--ha)}
+.ob.sC{background:var(--oc-l);border-color:var(--oc);color:var(--oc)}
+.ob.sO{background:var(--oo-l);border-color:var(--oo);color:var(--oo)}
+.ob.sF{background:var(--of-l);border-color:var(--of);color:var(--of)}
+.tsel{display:flex;gap:2px;flex-shrink:0;margin-left:2px}
+.tb{font-size:7.5px;padding:2px 4px;border-radius:4px;border:1px solid var(--border);background:var(--bg);cursor:pointer;font-weight:700;color:var(--muted);transition:all .1s}
+.tb:hover{border-color:#888}
+.tb.sT{background:#FFF3E0;border-color:#E65100;color:#E65100}
+.tb.sP{background:#E3F2FD;border-color:#0D47A1;color:#0D47A1}
+.tb.sL{background:#E8F5E9;border-color:#2E7D32;color:#2E7D32}
+.sfd{display:none;padding:3px 0 1px 11px;border-left:2px solid var(--fl-l);margin-top:3px}
+.sfd.open{display:block}
+.ri{width:100%;border:1px solid var(--border);border-radius:4px;padding:3px 6px;font-size:9.5px;font-family:inherit;background:#FAFAFA;color:var(--text);margin-top:2px}
+.ri:focus{outline:1px solid var(--c2);background:#fff}
+
+/* TOTALS */
+.tbar{display:flex;align-items:center;gap:9px;padding:6px 9px;background:var(--bg);border-radius:6px;margin-top:7px;border:1px solid var(--border)}
+.tnum{font-size:15px;font-weight:700;color:var(--c1);min-width:22px;text-align:center}
+.tlbl{font-size:10px;color:var(--muted)}
+.pbar{flex:1;height:5px;background:#E0E0E0;border-radius:3px;overflow:hidden}
+.pfill{height:100%;border-radius:3px;transition:width .3s;background:var(--c2)}
+
+/* MISC */
+.slbl{font-size:9px;font-weight:700;letter-spacing:.8px;color:var(--muted);text-transform:uppercase;margin:11px 0 6px}
+.oleg{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
+.otag{font-size:9px;padding:2px 6px;border-radius:5px;font-weight:600}
+.cf{width:100%;min-height:48px;border:1px solid var(--border);border-radius:6px;padding:6px 8px;font-size:10.5px;font-family:inherit;resize:vertical;color:var(--text);background:#fff;margin-top:4px}
+.cf:focus{outline:2px solid var(--c2)}
+.tlviz{background:#fff;border-radius:9px;border:1px solid var(--border);padding:9px 11px;margin-bottom:9px}
+.tlrow{display:flex;align-items:center}
+.tlstep{flex:1;text-align:center;padding:5px 3px}
+.tlbox{border-radius:8px;padding:6px 5px 5px;border:1.5px solid;cursor:pointer;transition:transform .12s,box-shadow .12s}
+.tlbox:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(0,0,0,.1)}
+.tlnm{font-size:9.5px;font-weight:700;margin-bottom:2px}
+.tlds{font-size:8px;opacity:.75;line-height:1.3}
+.tlarr{font-size:14px;color:var(--border);flex-shrink:0}
+.plgd{display:flex;gap:3px;align-items:center;padding:4px 0 7px;border-bottom:1px solid #F0F2F8;margin-bottom:4px;flex-wrap:wrap}
+.pldot{width:19px;height:16px;border-radius:3px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0}
+.pli{display:flex;align-items:center;gap:2px;font-size:8px;color:var(--muted)}
+.srow{display:flex;align-items:flex-start;gap:5px;padding:4px 0;border-bottom:1px solid #F0F2F8}
+.srow:last-child{border-bottom:none}
+.snm{flex:1;font-size:10px;line-height:1.3}
+.vblk{padding:6px 8px;margin-bottom:5px;border-radius:7px;border-left:3px solid}
+
+/* DIAGRAM */
+.diagram-wrap{padding:14px 18px;overflow-x:auto}
+.diagram-wrap svg{display:block;margin:0 auto}
+.diagram-empty{display:flex;align-items:center;justify-content:center;min-height:420px;color:var(--muted);text-align:center;padding:40px}
+.diagram-empty div{max-width:360px}
+
+/* EXPORT MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;align-items:center;justify-content:center}
+.modal-bg.show{display:flex}
+.modal{background:#fff;border-radius:12px;padding:24px 28px;max-width:440px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,.18)}
+.modal h2{font-size:15px;font-weight:700;color:var(--c1);margin-bottom:8px}
+.modal p{font-size:11px;color:var(--muted);margin-bottom:18px;line-height:1.6}
+.modal-btns{display:flex;gap:8px;flex-wrap:wrap}
+.mbtn{flex:1;height:36px;border-radius:7px;border:none;font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;min-width:120px}
+.mbtn-xlsx{background:#1F6B3E;color:#fff}
+.mbtn-xlsx:hover{background:#145230}
+.mbtn-csv{background:#2E4B8C;color:#fff}
+.mbtn-csv:hover{background:#1F3864}
+.mbtn-svg{background:#4A235A;color:#fff}
+.mbtn-svg:hover{background:#351845}
+.mbtn-cancel{background:#F5F5F5;color:#555}
+.mbtn-cancel:hover{background:#E8E8E8}
+.modal-ok{display:none;background:#E8F5E9;border-radius:8px;padding:12px 14px;margin-top:14px;font-size:11px;color:#1B5E20;line-height:1.5}
+.modal-ok.show{display:block}
+
+/* TOAST */
+.toast{position:fixed;bottom:16px;right:16px;padding:10px 14px;border-radius:8px;font-size:11px;z-index:9999;opacity:0;transform:translateY(6px);transition:all .25s;pointer-events:none;max-width:300px;font-weight:500}
+.toast.show{opacity:1;transform:translateY(0)}
+.tok{background:#2E7D32;color:#fff}
+.terr{background:#B71C1C;color:#fff}
+.tinf{background:#1565C0;color:#fff}
+
+/* PROGRESS BAR EXPORT */
+.prog-wrap{display:none;margin-top:12px}
+.prog-wrap.show{display:block}
+.prog-bar{height:6px;background:#E0E0E0;border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;background:#1F6B3E;border-radius:3px;transition:width .3s}
+.prog-label{font-size:10px;color:var(--muted);margin-top:4px}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="htxt">
+    <h1>Matrice Parametrică — Taxonomia Analizei Urbane</h1>
+    <p>Instrument de structurare a conceptului arhitectural · 52 parametri · 5 domenii · <span style="opacity:.85">Prof. Bogdan Șerbănoiu</span></p>
+  </div>
+  <div class="hform">
+    <input class="hin" id="stName" placeholder="Numele și prenumele..." style="width:155px" oninput="updateDiagramIfVisible()">
+    <input class="hin" id="sitName" placeholder="Situl analizat..." style="width:125px" oninput="updateDiagramIfVisible()">
+    <button class="expbtn" onclick="showExport()">⬇ Descarcă datele mele</button>
+    <button class="expbtn" onclick="showSubmit()" style="background:#1A237E;border-color:#1A237E">⬆ Trimite către profesor</button>
+  </div>
+</div>
+
+<!-- BARA FAZE DE COMPLETARE -->
+<div class="tabs tabs-phases">
+  <div class="tab phase-tab on" data-phase="0" onclick="setPhase(0)"><div class="tl">FAZA 1</div><div class="tn">Analiza sitului</div><div class="tc" id="cnt0">0 / 52</div></div>
+  <div class="tab phase-tab" data-phase="1" onclick="setPhase(1)"><div class="tl">FAZA 2a</div><div class="tn">Op. Directe</div><div class="tc" id="cnt1">—</div></div>
+  <div class="tab phase-tab" data-phase="2" onclick="setPhase(2)"><div class="tl">FAZA 2b</div><div class="tn">Op. Conectare</div><div class="tc" id="cnt2">—</div></div>
+  <div class="tab phase-tab" data-phase="3" onclick="setPhase(3)"><div class="tl">FAZA 2c</div><div class="tn">Op. Optimizare</div><div class="tc" id="cnt3">—</div></div>
+  <div class="tab phase-tab" data-phase="4" onclick="setPhase(4)"><div class="tl">FAZA 3</div><div class="tn">Concept + Soluție</div><div class="tc" id="cnt4">—</div></div>
+</div>
+<!-- BARA VIZUALIZĂRI -->
+<div class="tabs tabs-viz">
+  <div class="viz-label">VIZUALIZĂRI →</div>
+  <div class="tab viz-tab" data-phase="5" onclick="setPhase(5)"><div class="tl">◇</div><div class="tn">Diagrama Decizională</div><div class="tc" id="cnt5">graf procesual</div></div>
+  <div class="tab viz-tab" data-phase="7" onclick="setPhase(7)"><div class="tl">◈</div><div class="tn">Radar Domenii</div><div class="tc" id="cnt7">profil pe 5 domenii</div></div>
+  <div class="tab viz-tab" data-phase="6" onclick="setPhase(6)"><div class="tl">◉</div><div class="tn">Spațiu Triaxial 3D</div><div class="tc" id="cnt6">cartografie 3D</div></div>
+</div>
+
+<div class="main">
+<!-- PH0 -->
+<div id="ph0">
+  <div class="slbl">Axa temporală</div>
+  <div class="tlviz">
+    <div class="tlrow">
+      <div class="tlstep"><div class="tlbox" style="background:var(--ha-l);border-color:var(--ha)" onclick="setPhase(1)"><div class="tlnm" style="color:var(--ha)">Operații Directe</div><div class="tlds">Hard → baza</div></div></div>
+      <div class="tlarr">→</div>
+      <div class="tlstep"><div class="tlbox" style="background:var(--oc-l);border-color:var(--oc)" onclick="setPhase(2)"><div class="tlnm" style="color:var(--oc)">Op. Conectare</div><div class="tlds" style="font-weight:700">★ Faza centrală</div></div></div>
+      <div class="tlarr">→</div>
+      <div class="tlstep"><div class="tlbox" style="background:var(--oo-l);border-color:var(--oo)" onclick="setPhase(3)"><div class="tlnm" style="color:var(--oo)">Op. Optimizare</div><div class="tlds">Ierarhii · Semnif.</div></div></div>
+      <div class="tlarr">→</div>
+      <div class="tlstep"><div class="tlbox" style="background:#F5F5F5;border-color:#BDBDBD" onclick="setPhase(4)"><div class="tlnm" style="color:#424242">Fitness + Soluție</div><div class="tlds">Tehnic → formă</div></div></div>
+    </div>
+  </div>
+  <div class="slbl">Matricea parametrică — 52 parametri pe 5 domenii</div>
+  <div class="oleg">
+    <div class="otag" style="background:var(--ha-l);color:var(--ha)">■ Hard Absolut — nenegociabil</div>
+    <div class="otag" style="background:var(--hc-l);color:var(--hc)">■ Hard Condit. — ferm în primul ciclu</div>
+    <div class="otag" style="background:var(--fl-l);color:var(--fl)">■ Flexibil — efect condiționat de relații</div>
+    <div class="otag" style="background:var(--ng-l);color:var(--ng)">■ Negociabil — marjă largă</div>
+  </div>
+  <div class="oleg" style="margin-top:-4px">
+    <span style="font-size:8px;font-weight:700;color:var(--muted);margin-right:2px">REGIM TEMPORAL →</span>
+    <div class="otag" style="background:#FFF3E0;color:#E65100">T = Fixare timpurie</div>
+    <div class="otag" style="background:#E3F2FD;color:#0D47A1">P = Angajare progresivă</div>
+    <div class="otag" style="background:#E8F5E9;color:#2E7D32">L = Legare tardivă</div>
+    <span style="font-size:8px;color:var(--muted);font-style:italic">(sugestie automată — modificabil pe fiecare parametru)</span>
+  </div>
+  <div id="domains"></div>
+</div>
+
+<!-- PH1 -->
+<div id="ph1" style="display:none">
+  <div class="slbl">Operații Directe — parametrii hard stabilesc baza conceptului</div>
+  <div class="card"><div class="ch" style="background:var(--ha-l);cursor:default"><div class="cdot" style="background:var(--ha)"></div><div class="cttl" style="color:var(--ha)">Parametrii cu operație DIRECTĂ și pondere ≥ 3</div></div><div class="cb open" id="dirList"><p style="font-size:10px;color:var(--muted);padding:6px 0">Completează Faza 1.</p></div></div>
+  <div class="card"><div class="ch" style="cursor:default"><div class="cttl">Constrângeri identificate</div></div><div class="cb open"><textarea class="cf" id="dirN" placeholder="Constrângeri absolute, limite fizice, norme specifice sitului..."></textarea></div></div>
+</div>
+
+<!-- PH2 -->
+<div id="ph2" style="display:none">
+  <div class="slbl">Operații de Conectare — miezul procesului creator</div>
+  <div class="card" style="border-color:var(--oc)"><div class="ch" style="background:var(--oc-l);cursor:default"><div class="cdot" style="background:var(--oc)"></div><div class="cttl" style="color:var(--oc)">Parametrii cu operație CONECTARE și pondere ≥ 3</div></div><div class="cb open" id="conList"><p style="font-size:10px;color:var(--muted);padding:6px 0">Completează Faza 1.</p></div></div>
+  <div class="card"><div class="ch" style="cursor:default"><div class="cttl">Ipoteze conceptuale</div></div><div class="cb open">
+    <p style="font-size:9.5px;color:var(--muted)">Ce emerge dacă pun în relație parametrul X cu constrângerea Y?</p>
+    <textarea class="cf" id="conH1" style="min-height:38px" placeholder="Ipoteză 1:"></textarea>
+    <textarea class="cf" id="conH2" style="min-height:38px" placeholder="Ipoteză 2:"></textarea>
+    <textarea class="cf" id="conH3" style="min-height:38px" placeholder="Ipoteză 3:"></textarea>
+  </div></div>
+  <div class="card"><div class="ch" style="cursor:default"><div class="cttl">Prima configurație conceptuală</div></div><div class="cb open"><textarea class="cf" id="conCfg" placeholder="Ce relații parametrice produc o logică internă coerentă?"></textarea></div></div>
+</div>
+
+<!-- PH3 -->
+<div id="ph3" style="display:none">
+  <div class="slbl">Operații de Optimizare — emergența semnificației</div>
+  <div class="card" style="border-color:var(--oo)"><div class="ch" style="background:var(--oo-l);cursor:default"><div class="cdot" style="background:var(--oo)"></div><div class="cttl" style="color:var(--oo)">Parametrii cu operație OPTIMIZARE și pondere ≥ 3</div></div><div class="cb open" id="optList"><p style="font-size:10px;color:var(--muted);padding:6px 0">Completează Faza 1.</p></div></div>
+  <div class="card"><div class="ch" style="cursor:default"><div class="cttl">Rearanjarea ierarhiilor</div></div><div class="cb open">
+    <textarea class="cf" id="optH1" style="min-height:38px" placeholder="Varianta A:"></textarea>
+    <textarea class="cf" id="optH2" style="min-height:38px" placeholder="Varianta B:"></textarea>
+  </div></div>
+  <div class="card"><div class="ch" style="cursor:default"><div class="cttl">Semnificații emergente</div></div><div class="cb open"><textarea class="cf" id="optMn" placeholder="De unde vine această semnificație?"></textarea></div></div>
+</div>
+
+<!-- PH4 -->
+<div id="ph4" style="display:none">
+  <div class="slbl">Conceptul-sursă și generarea soluției</div>
+  <div class="card" style="border-color:var(--c1)"><div class="ch" style="background:var(--c1);cursor:default"><div class="cttl" style="color:#fff;font-size:13px">CONCEPT-SURSĂ</div></div><div class="cb open"><textarea class="cf" id="concSrc" style="min-height:60px;font-weight:600;font-size:11.5px" placeholder="Formulează conceptul-sursă..."></textarea></div></div>
+  <div class="card"><div class="ch" style="cursor:default"><div class="cttl">Vectorii conceptuali principali (pondere 5)</div></div><div class="cb open" id="concVec"><p style="font-size:10px;color:var(--muted);padding:6px 0">Acordă valoarea 5 în Faza 1.</p></div></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
+    <div class="card"><div class="ch" style="cursor:default"><div class="cttl">Parametrii fitness</div></div><div class="cb open"><textarea class="cf" id="fitN" placeholder="Constrângeri tehnice, structurale, financiare..."></textarea></div></div>
+    <div class="card"><div class="ch" style="cursor:default"><div class="cttl">Variante de soluție</div></div><div class="cb open"><textarea class="cf" id="solN" placeholder="Varianta A / B și argumentul..."></textarea></div></div>
+  </div>
+  <div class="card" style="margin-top:7px"><div class="ch" style="cursor:default"><div class="cttl">Sumar — parametrii cu pondere 4–5</div></div><div class="cb open" id="topList"><p style="font-size:10px;color:var(--muted);padding:4px 0">Completează Faza 1.</p></div></div>
+</div>
+
+<!-- PH5 — DIAGRAMA DECIZIONALĂ -->
+<div id="ph5" style="display:none">
+  <div id="diagramArea"></div>
+</div>
+
+<!-- PH7 — RADAR PE DOMENII -->
+<div id="ph7" style="display:none">
+  <div class="slbl">Profilul decizional pe cele 5 domenii — diagrama radar</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+    <div style="background:#fff;border-radius:9px;border:1px solid var(--border);padding:14px 16px">
+      <div style="font-size:12px;font-weight:700;color:var(--c1);margin-bottom:8px">Diagrama Radar — Investiția pe domenii</div>
+      <div style="font-size:9.5px;color:var(--muted);margin-bottom:10px;line-height:1.6">Fiecare axă a radarului reprezintă media ponderilor pe unul din cele 5 domenii. Forma rezultată arată unde se concentrează masa decizională a proiectului tău — adică unde investești cel mai mult. Un concept puternic nu produce un radar echilibrat, ci unul cu vârfuri clare.</div>
+      <div id="radarStudentChart" style="width:100%;height:380px"></div>
+    </div>
+    <div style="background:#fff;border-radius:9px;border:1px solid var(--border);padding:14px 16px">
+      <div style="font-size:12px;font-weight:700;color:var(--c1);margin-bottom:8px">Valori pe domenii</div>
+      <div id="radarStudentTable"></div>
+      <div style="margin-top:14px;padding:10px 12px;background:var(--bg);border-radius:7px;border:1px solid var(--border)">
+        <div style="font-size:10px;font-weight:700;color:var(--c1);margin-bottom:4px">Lectură interpretativă</div>
+        <div id="radarInterpretation" style="font-size:9.5px;color:var(--muted);line-height:1.6"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PH6 — SPAȚIU TRIAXIAL 3D -->
+<div id="ph6" style="display:none">
+  <div class="slbl">Spațiul taxonomic tridimensional — fiecare parametru localizat pe cele trei axe</div>
+  <div style="background:#fff;border-radius:9px;border:1px solid var(--border);padding:12px 14px;margin-bottom:9px">
+    <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-bottom:10px">
+      <div style="flex:1;min-width:240px">
+        <div style="font-size:11px;font-weight:700;color:var(--c1);margin-bottom:4px">Spațiul Decizional Triaxial</div>
+        <div style="font-size:9.5px;color:var(--muted);line-height:1.6">
+          Fiecare parametru activ (pondere ≥ 1) este localizat în spațiul tridimensional definit de cele trei axe taxonomice propuse în cadrul conceptual. Dimensiunea sferei reflectă ponderea atribuită, iar culoarea indică domeniul de proveniență. Rotația interactivă (drag) și zoom-ul (scroll) permit inspecția din orice unghi.
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <button class="exp2btn" onclick="render3DMain()" style="background:rgba(26,35,126,.1);color:#1A237E;border-color:#1A237E">⟳ Recalculează</button>
+        <select id="colorMode3D" onchange="render3DMain()" style="height:29px;border:1px solid var(--border);border-radius:5px;padding:0 6px;font-size:10px;font-family:inherit;background:#fff">
+          <option value="domain">Culoare: Domeniu</option>
+          <option value="epistemic">Culoare: Tip epistemic</option>
+          <option value="operation">Culoare: Operație</option>
+          <option value="temporal">Culoare: Regim temporal</option>
+        </select>
+        <label style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--muted);cursor:pointer">
+          <input type="checkbox" id="showConns3D" checked onchange="render3DMain()" style="cursor:pointer"> Conexiuni
+        </label>
+        <span id="connCount3D" style="font-size:9px;color:#E67E22;font-weight:600"></span>
+      </div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+      <div style="font-size:8px;font-weight:700;color:var(--muted);padding:2px 0">AXE:</div>
+      <div style="font-size:8.5px;padding:2px 6px;border-radius:4px;background:#E3F2FD;color:#0D47A1;font-weight:600">X = Natura Epistemică (HA → HC → FL → NG)</div>
+      <div style="font-size:8.5px;padding:2px 6px;border-radius:4px;background:#E8F5E9;color:#1B5E20;font-weight:600">Y = Potențialul Generativ (Directă → Conectare → Optimizare → Fitness)</div>
+      <div style="font-size:8.5px;padding:2px 6px;border-radius:4px;background:#FFF3E0;color:#E65100;font-weight:600">Z = Regimul Temporal (Fixare timpurie → Angajare progresivă → Legare tardivă)</div>
+    </div>
+    <div id="plot3DMain" style="width:100%;height:520px;border:1px solid #E8E8E8;border-radius:8px;overflow:hidden"></div>
+  </div>
+
+  <div class="slbl">Proiecții bidimensionale — lectură analitică pe perechi de axe</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+    <div style="background:#fff;border-radius:9px;border:1px solid var(--border);padding:10px 12px">
+      <div style="font-size:10px;font-weight:700;color:var(--c1);margin-bottom:2px">Proiecția XY: Epistemică × Generativă</div>
+      <div style="font-size:8.5px;color:var(--muted);margin-bottom:6px">Cartografierea cuplajului între natura informației și tipul de cunoaștere produs</div>
+      <div id="plotXY" style="width:100%;height:380px"></div>
+    </div>
+    <div style="background:#fff;border-radius:9px;border:1px solid var(--border);padding:10px 12px">
+      <div style="font-size:10px;font-weight:700;color:var(--c1);margin-bottom:2px">Proiecția XZ: Epistemică × Temporală</div>
+      <div style="font-size:8.5px;color:var(--muted);margin-bottom:6px">Verificarea corelației structurale: hard→timpuriu, interpretativ→tardiv</div>
+      <div id="plotXZ" style="width:100%;height:380px"></div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:9px">
+    <div style="background:#fff;border-radius:9px;border:1px solid var(--border);padding:10px 12px">
+      <div style="font-size:10px;font-weight:700;color:var(--c1);margin-bottom:2px">Proiecția YZ: Generativă × Temporală</div>
+      <div style="font-size:8.5px;color:var(--muted);margin-bottom:6px">Relația între tipul operației și momentul fixării — path-dependency vizualizată</div>
+      <div id="plotYZ" style="width:100%;height:380px"></div>
+    </div>
+    <div style="background:#fff;border-radius:9px;border:1px solid var(--border);padding:10px 12px">
+      <div style="font-size:10px;font-weight:700;color:var(--c1);margin-bottom:2px">Densitate pe axe — distribuția taxonomică</div>
+      <div style="font-size:8.5px;color:var(--muted);margin-bottom:6px">Profilul decizional al proiectului: unde se concentrează masa decizională?</div>
+      <div id="plotDensity" style="width:100%;height:380px"></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- MODAL EXPORT -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h2>⬇ Descarcă pachetul complet</h2>
+    <p>Se generează un fișier ZIP care conține: matricea Excel completă, diagrama decizională SVG, diagrama radar SVG și un backup JSON. Toate într-un singur fișier.</p>
+    <div class="modal-btns">
+      <button class="mbtn mbtn-xlsx" onclick="exportZIP()" style="flex:2">⬇ Descarcă ZIP (.zip)</button>
+      <button class="mbtn mbtn-cancel" onclick="hideExport()">Înapoi</button>
+    </div>
+    <div class="prog-wrap" id="progWrap">
+      <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+      <div class="prog-label" id="progLabel">Se generează pachetul...</div>
+    </div>
+    <div class="modal-ok" id="modalOk">
+      ✓ Pachetul a fost descărcat în folderul tău Downloads.<br>
+      Denumire: <strong id="filenameLabel"></strong><br>
+      Conține: Excel + Diagrama Decizională + Radar Domenii + Backup JSON<br><br>
+      Trimite acest fișier profesorului sau pune-l în folderul partajat.
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- MODAL SUBMIT -->
+<div class="modal-bg" id="submitBg">
+  <div class="modal" style="max-width:480px">
+    <h2>⬆ Trimite către profesor</h2>
+    <p>Datele tale vor fi trimise în baza de date centrală a atelierului. Poți trimite de mai multe ori — fiecare submisie este salvată ca versiune nouă.</p>
+    <div style="margin-bottom:12px">
+      <label style="font-size:10px;font-weight:700;color:#666;display:block;margin-bottom:4px">COD ATELIER</label>
+      <input type="password" id="submitPasscode" placeholder="Introdu codul primit de la profesor..." style="width:100%;height:34px;border:1px solid #DDD;border-radius:6px;padding:0 10px;font-size:12px;font-family:inherit">
+    </div>
+    <div id="submitInfo" style="background:#F5F5F5;border-radius:7px;padding:10px 12px;margin-bottom:14px;font-size:10.5px;line-height:1.6;color:#555">
+      Se calculează...
+    </div>
+    <div class="modal-btns">
+      <button class="mbtn" id="submitBtn" onclick="doSubmit()" style="background:#1A237E;color:#fff;flex:2">⬆ Trimite acum</button>
+      <button class="mbtn" onclick="downloadJSON()" style="background:#4A235A;color:#fff">⬇ Backup JSON</button>
+      <button class="mbtn mbtn-cancel" onclick="hideSubmit()">Înapoi</button>
+    </div>
+    <div class="prog-wrap" id="submitProgWrap">
+      <div class="prog-bar"><div class="prog-fill" id="submitProgFill" style="width:0%"></div></div>
+      <div class="prog-label" id="submitProgLabel">Se trimit datele...</div>
+    </div>
+    <div class="modal-ok" id="submitOk">
+      ✓ Datele au fost trimise cu succes!<br>
+      <strong id="submitConfirm"></strong>
+    </div>
+    <div id="submitError" style="display:none;background:#FFEBEE;border-radius:8px;padding:12px 14px;margin-top:14px;font-size:11px;color:#B71C1C;line-height:1.5"></div>
+  </div>
+</div>
+
+<script>
+/**
+ * ═══════════════════════════════════════════════════════════════════════════
+ *  Matrice Parametrică — Taxonomia Analizei Urbane
+ *  Instrument pedagogic de structurare a conceptului arhitectural
+ *
+ *  Autor:     Prof. Bogdan Șerbănoiu
+ *  Copyright: © 2025–2026 Bogdan Șerbănoiu. Toate drepturile rezervate.
+ *
+ *  Acest instrument software și conținutul asociat (model conceptual,
+ *  taxonomie parametrică, logică procesuală) sunt proprietatea intelectuală
+ *  a autorului. Reproducerea, distribuirea sau modificarea fără acordul
+ *  scris al autorului sunt interzise.
+ * ═══════════════════════════════════════════════════════════════════════════
+ */
+
+// ═══ DATE PARAMETRI — 52 total ═══════════════════════════════════════════
+const DOMAINS=[
+  {id:'d1',name:'Fizico-Morfologic',color:'#2E4B8C',lbg:'#E3EEFF',params:[
+    {n:'Topografie și relații de nivel',t:'HC',op:'D',note:'Poate genera constrângeri de acces și de structurare volumetrică'},
+    {n:'Orientare geografică și regim de însorire',t:'HC',op:'D',note:'Influențează direct organizarea spațiilor și fațadelor — verifică traseul soarelui'},
+    {n:'Structura parcelară (dimensiuni, raporturi)',t:'HC',op:'D',note:'Ritmul parcelei poate deveni principiu formal generativ'},
+    {n:'Regim de înălțime al vecinătăților',t:'HC',op:'C',note:'Presiune de conformitate; poate fi sursă de dialog sau contrast deliberat'},
+    {n:'Calitatea fronturilor stradale',t:'FL',op:'C',note:'Determină relația proiectului cu spațiul public — cartează deschiderile și închiderile'},
+    {n:'Elemente de peisaj dominant',t:'FL',op:'C',note:'Poate deveni reper vizual sau generator de axe conceptuale'},
+    {n:'Expunere vizuală din / spre sit',t:'FL',op:'O',note:'Calitate perceptivă cu potențial conceptual ridicat — desenează conurile vizuale'},
+    {n:'Gradul de ocupare și densitate construită',t:'HC',op:'D',note:'Limitează sau deschide posibilități de inserție — calculează POT existent'},
+    {n:'Calitatea fondului construit existent',t:'FL',op:'C',note:'Determină dacă contextul construit este partener sau obstacol conceptual'},
+    {n:'Prezența infrastructurii tehnice (HT, rețele)',t:'HA',op:'D',note:'Servituți tehnice non-negociabile — verifică planurile de utilități la operator'},
+  ]},
+  {id:'d2',name:'Funcțional-Programatic',color:'#1F6B3E',lbg:'#E8F5E9',params:[
+    {n:'Utilizările actuale ale terenului',t:'FL',op:'C',note:'Starea funcțională actuală — potențial de conversie sau continuitate programatică'},
+    {n:'Densitățile de activitate (orar, zilnic, sezon)',t:'FL',op:'C',note:'Ritmurile temporale pot deveni resursa conceptuală principală'},
+    {n:'Accesibilitate vehiculară',t:'HC',op:'D',note:'Poate impune localizarea accesului și a parcajelor — verifică PUZ'},
+    {n:'Accesibilitate pietonală',t:'FL',op:'C',note:'Definește relația proiectului cu mișcarea în sit'},
+    {n:'Accesibilitate ciclabilă',t:'FL',op:'C',note:'Relevanță crescândă în contextul mobilității durabile'},
+    {n:'Legătura cu transportul public',t:'HC',op:'D',note:'Impune constrângeri de accesibilitate minimă'},
+    {n:'Proximitate față de funcțiuni complementare',t:'FL',op:'C',note:'Contextualizează programul propus în ecosistemul funcțional'},
+    {n:'Variații temporale de utilizare',t:'NG',op:'O',note:'Poate genera concepte de arhitectură adaptivă sau temporală'},
+    {n:'Potențial de transformare programatică',t:'NG',op:'O',note:'Imaginea funcțională dorită vs. cea existentă — o decizie a ta'},
+    {n:'Cerințe de program (suprafețe, funcțiuni)',t:'HC',op:'D',note:'Definit de temă; negociabil cu beneficiarul în limite rezonabile'},
+  ]},
+  {id:'d3',name:'Normativ-Reglementar',color:'#8B0000',lbg:'#FFEBEE',params:[
+    {n:'Zonificare urbană (destinație reglementată)',t:'HA',op:'D',note:'Non-negociabil — definește ce funcțiuni sunt permise; sursă: PUG/PUZ'},
+    {n:'POT — Procentul de Ocupare a Terenului',t:'HA',op:'D',note:'Limita superioară absolută pentru amprenta la sol — nu poate fi depășit'},
+    {n:'CUT — Coeficientul de Utilizare',t:'HA',op:'D',note:'Limita absolută a suprafeței construite desfășurate totale'},
+    {n:'Aliniament față de stradă',t:'HA',op:'D',note:'Definește frontiera construibilă față de domeniu public — sursă: RLU local'},
+    {n:'Retrageri laterale și posterioare',t:'HA',op:'D',note:'Limitează libertatea volumetrică; verifică dacă există derogări în PUZ'},
+    {n:'Înălțime maximă admisă',t:'HA',op:'D',note:'Plafon absolut; poate genera concepte de orizontalitate deliberată'},
+    {n:'Regim de protecție monument / zonă protejată',t:'HA',op:'D',note:'Poate impune retrageri, materiale, gabarite — aviz obligatoriu MCC'},
+    {n:'Servituți de utilitate publică',t:'HA',op:'D',note:'Restricții legale — verifică CF și planuri cadastrale'},
+    {n:'Norme de accesibilitate (PMR, evacuare)',t:'HA',op:'F',note:'Non-negociabil; influențează circulațiile și rampe — NP 051 și P 118'},
+    {n:'Normative de siguranță la foc',t:'HA',op:'F',note:'Non-negociabil; influențează structurarea interioară — P 118'},
+    {n:'Avize speciale (mediu, circulație, etc.)',t:'HC',op:'D',note:'Condiții suplimentare în funcție de sit și program — verifică la DUAT'},
+    {n:'Cerințe de parcare',t:'HC',op:'D',note:'Conditionat de regulament local; negociabil în zone cu transport public bun'},
+  ]},
+  {id:'d4',name:'Perceptiv-Spațial',color:'#4A235A',lbg:'#EDE7F6',params:[
+    {n:'Calitățile vizuale (deschideri, închideri, secvențe)',t:'FL',op:'C',note:'Structura dinamică a câmpului vizual după Arnheim'},
+    {n:'Relații vizuale cu repere din context',t:'FL',op:'C',note:'Reperele Lynch — noduri, limite, landmarks cu care proiectul intră în dialog'},
+    {n:'Gradiente de intensitate perceptivă pe trasee',t:'FL',op:'O',note:'Secvența de dezvăluire a sitului — potențial narativ și dramatic'},
+    {n:'Calitățile sonore (zgomot, reverberații, tăcere)',t:'FL',op:'O',note:'Dimensiune corporală — Pallasmaa; nu se cartografiază, se trăiește'},
+    {n:'Calitățile tactile și atmosferice',t:'FL',op:'O',note:'Experiență pre-reflexivă — Merleau-Ponty; necesită prezență corporală în sit'},
+    {n:'Luminozitate și calitate a luminii naturale',t:'FL',op:'C',note:'Poate deveni parametru conceptual central — ex. lumina oblică dinspre nord'},
+    {n:'Scara spațiilor publice adiacente (raport H/D)',t:'FL',op:'C',note:'Determină tipul de relație proiect–spațiu public și percepția scării'},
+    {n:'Prezența și calitatea vegetației',t:'FL',op:'C',note:'Context ambiental cu impact perceptiv major în toate anotimpurile'},
+    {n:'Variații temporale ale calității perceptive',t:'NG',op:'O',note:'Situl ploios nu e același sit cu cel luminat — vizitează repetat'},
+    {n:'Misterul și potențialul de explorare (Kaplan)',t:'NG',op:'O',note:'Calitate invizibilă dar fertilă conceptual; spațiile cu mister generează proiecte bune'},
+  ]},
+  {id:'d5',name:'Cultural-Simbolic',color:'#7D6608',lbg:'#FEF9C3',params:[
+    {n:'Memoria colectivă a locului',t:'NG',op:'O',note:'Permanența urbană Rossi; cel mai profund strat al locului — cercetează arhive'},
+    {n:'Stratificări istorice vizibile și șterse',t:'NG',op:'O',note:'Tensiunea strat–suprafață ca sursă conceptuală; compară hărți din epoci diferite'},
+    {n:'Valoarea simbolică a elementelor construite',t:'FL',op:'O',note:'Nu se deduce din morfologie — necesită conversații directe cu locuitorii'},
+    {n:'Tensiunile sociale înscrise în formele urbane',t:'FL',op:'C',note:'Conflicte de utilizare, gentrificare, excluderi spațiale'},
+    {n:'Narativele identitare ale comunității',t:'NG',op:'O',note:'Interviuri cu locatari și comercianți; material calitativ esențial'},
+    {n:'Schimbări istorice de funcțiune cu impact simbolic',t:'NG',op:'O',note:'Ex.: grădinile de vară, fabricile reconvertite — verifică presa de arhivă'},
+    {n:'Monumente și elemente patrimoniale',t:'HC',op:'D',note:'Poate impune constrângeri și deschide oportunități conceptuale simultan'},
+    {n:'Logica economică subiacentă',t:'FL',op:'C',note:'Înțelegerea forțelor economice care au produs forma urbană existentă'},
+    {n:'Calitatea relației comunității cu spațiul public',t:'NG',op:'O',note:'Grad de învestire simbolică și emoțională — observație directă și interviuri'},
+    {n:'Urgențe culturale sau sociale ale contextului',t:'NG',op:'O',note:'Cel mai riscant și cel mai fertil parametru — necesită curaj de interpretare'},
+  ]}
+];
+
+const TOTAL=DOMAINS.reduce((s,d)=>s+d.params.length,0);
+const TYPES={HA:{l:'Hard Absolut',bg:'#FFEBEE',c:'#8B0000'},HC:{l:'Hard Condit.',bg:'#FFF3CD',c:'#7B4100'},FL:{l:'Flexibil',bg:'#E3EEFF',c:'#2E4B8C'},NG:{l:'Negociabil',bg:'#E8F5E9',c:'#1F6B3E'}};
+const OPS={D:{l:'Directă',bg:'#FFF0F0',c:'#8B0000'},C:{l:'Conectare',bg:'#E8F0FF',c:'#1E5799'},O:{l:'Optimizare',bg:'#F3EEF8',c:'#4A235A'},F:{l:'Fitness',bg:'#FFF8EE',c:'#7B4100'}};
+const TEMPS={T:{l:'Timpurie',bg:'#FFF3E0',c:'#E65100'},P:{l:'Progresivă',bg:'#E3F2FD',c:'#0D47A1'},L:{l:'Tardivă',bg:'#E8F5E9',c:'#2E7D32'}};
+const PC=['#9E9E9E','#AB47BC','#42A5F5','#66BB6A','#FDD835','#FB8C00'];
+const PD=['nerelevant','fundal','articulare','contributiv','central','vector principal'];
+
+const ST={};
+// Funcție de sugestie a regimului temporal implicit, bazată pe corelația structurală
+function defaultTemporal(typeCode, opCode){
+  const AXIS_X_TEMP={HA:0, HC:1, FL:2, NG:3};
+  const AXIS_Y_TEMP={D:0, C:1, O:2, F:1.5};
+  const ex = (AXIS_X_TEMP[typeCode]||0) / 3;
+  const ey = (AXIS_Y_TEMP[opCode]||0) / 3;
+  const score = 0.5 * ex + 0.5 * ey; // 0 → 1
+  if(score < 0.33) return 'T';
+  if(score < 0.66) return 'P';
+  return 'L';
+}
+DOMAINS.forEach(d=>d.params.forEach((_,i)=>{
+  const p=d.params[i];
+  ST[`${d.id}_${i}`]={ponder:0, op:p.op, temp:defaultTemporal(p.t, p.op), semnif:'', relatie:''};
+}));
+function gs(did,i){return ST[`${did}_${i}`];}
+
+let currentPhase=0;
+
+// ═══ EXPORT ═══════════════════════════════════════════════════════════════
+function showExport(){
+  const student=document.getElementById('stName').value.trim();
+  if(!student){toast('Scrie mai întâi numele tău în câmpul din header','terr');return;}
+  document.getElementById('modalOk').classList.remove('show');
+  document.getElementById('progWrap').classList.remove('show');
+  document.getElementById('progFill').style.width='0%';
+  document.getElementById('modalBg').classList.add('show');
+}
+function hideExport(){document.getElementById('modalBg').classList.remove('show');}
+
+function q(str){
+  if(str===null||str===undefined) return '""';
+  const s=String(str).replace(/"/g,'""');
+  return '"'+s+'"';
+}
+
+// ── EXPORT XLSX ──────────────────────────────────────────────────────────
+function exportXLSX(){
+  const student=document.getElementById('stName').value.trim()||'student';
+  const sit=document.getElementById('sitName').value.trim()||'sit';
+  const dateStr=new Date().toLocaleDateString('ro-RO');
+
+  document.getElementById('progWrap').classList.add('show');
+  document.getElementById('progFill').style.width='30%';
+  document.getElementById('progLabel').textContent='Se construiește Excel...';
+
+  setTimeout(()=>{
+    try{
+      const wb=XLSX.utils.book_new();
+      wb.Props={
+        Title:'Matrice Parametrică — Taxonomia Analizei Urbane',
+        Subject:'Instrument pedagogic — Analiza urbană',
+        Author:'Prof. Bogdan Șerbănoiu',
+        Manager:'',
+        Company:'',
+        Category:'Pedagogie arhitecturală',
+        Keywords:'analiză urbană, concept arhitectural, matrice parametrică, taxonomie',
+        Comments:'© 2025–2026 Bogdan Șerbănoiu. Toate drepturile rezervate.',
+        CreatedDate:new Date()
+      };
+
+      // ── Sheet 1: MATRICE COMPLETĂ ──
+      const wsData=[];
+      wsData.push(['MATRICE PARAMETRICĂ — TAXONOMIA ANALIZEI URBANE']);
+      wsData.push(['Autor instrument: Prof. Bogdan Șerbănoiu', '', '', '', '', '', '© 2025–2026 Bogdan Șerbănoiu']);
+      wsData.push(['Student:', student, '', 'Sit analizat:', sit, '', 'Data:', dateStr]);
+      wsData.push([]);
+
+      // Totaluri pe domenii
+      const tots=DOMAINS.map(d=>d.params.reduce((_,__,i)=>_+gs(d.id,i).ponder,0));
+      wsData.push(['TOTALURI PE DOMENII']);
+      DOMAINS.forEach((d,di)=>wsData.push([d.name, tots[di], '/ '+d.params.length*5+' max']));
+      wsData.push(['TOTAL GENERAL', tots.reduce((a,b)=>a+b,0), '/ '+TOTAL*5+' max']);
+      wsData.push([]);
+
+      // Vectori conceptuali
+      wsData.push(['VECTORI CONCEPTUALI (pondere 5)']);
+      const v5=[];
+      DOMAINS.forEach(d=>d.params.forEach((p,i)=>{if(gs(d.id,i).ponder===5)v5.push({n:p.n,dom:d.name});}));
+      if(v5.length) v5.forEach(v=>wsData.push(['  '+v.n, v.dom]));
+      else wsData.push(['  (niciun parametru cu pondere 5)']);
+      wsData.push([]);
+
+      // Header tabel
+      wsData.push(['Nr.','Domeniu','Parametru','Tip epistemic','Op. implicită','Pondere (0-5)','Op. selectată','Regim temporal','Semnificație concept','Relații parametri','Notă pedagogică']);
+
+      let nr=1;
+      DOMAINS.forEach(d=>{
+        d.params.forEach((p,i)=>{
+          const s=gs(d.id,i);
+          wsData.push([nr++, d.name, p.n, TYPES[p.t].l, OPS[p.op].l, s.ponder, OPS[s.op].l, TEMPS[s.temp].l, s.semnif||'', s.relatie||'', p.note]);
+        });
+      });
+
+      const ws=XLSX.utils.aoa_to_sheet(wsData);
+
+      // Column widths
+      ws['!cols']=[
+        {wch:5},{wch:22},{wch:42},{wch:14},{wch:14},{wch:10},{wch:14},{wch:14},{wch:36},{wch:32},{wch:50}
+      ];
+
+      // Merge title row
+      ws['!merges']=[{s:{r:0,c:0},e:{r:0,c:10}}];
+
+      XLSX.utils.book_append_sheet(wb, ws, 'Matrice Parametrică');
+
+      document.getElementById('progFill').style.width='60%';
+
+      // ── Sheet 2: NOTE CONCEPTUALE ──
+      const notesData=[];
+      notesData.push(['NOTE CONCEPTUALE — '+student]);
+      notesData.push(['Sit analizat:', sit, 'Data:', dateStr]);
+      notesData.push([]);
+      notesData.push(['SECȚIUNE','CONȚINUT']);
+      notesData.push(['Constrângeri directe', gv('dirN')]);
+      notesData.push(['Ipoteză conectare 1', gv('conH1')]);
+      notesData.push(['Ipoteză conectare 2', gv('conH2')]);
+      notesData.push(['Ipoteză conectare 3', gv('conH3')]);
+      notesData.push(['Prima configurație conceptuală', gv('conCfg')]);
+      notesData.push(['Optimizare — Ierarhie A', gv('optH1')]);
+      notesData.push(['Optimizare — Ierarhie B', gv('optH2')]);
+      notesData.push(['Semnificații emergente', gv('optMn')]);
+      notesData.push([]);
+      notesData.push(['CONCEPT-SURSĂ', gv('concSrc')]);
+      notesData.push([]);
+      notesData.push(['Parametri fitness', gv('fitN')]);
+      notesData.push(['Variante de soluție', gv('solN')]);
+
+      const ws2=XLSX.utils.aoa_to_sheet(notesData);
+      ws2['!cols']=[{wch:32},{wch:80},{wch:8},{wch:20}];
+      ws2['!merges']=[{s:{r:0,c:0},e:{r:0,c:3}}];
+      XLSX.utils.book_append_sheet(wb, ws2, 'Note Conceptuale');
+
+      // ── Sheet 3: SINTEZĂ OPERAȚII ──
+      const synData=[];
+      synData.push(['SINTEZĂ PE OPERAȚII — '+student+' — '+sit]);
+      synData.push([]);
+
+      const groups={D:[],C:[],O:[],F:[]};
+      DOMAINS.forEach(d=>d.params.forEach((p,i)=>{
+        const s=gs(d.id,i);
+        if(s.ponder>=1) (groups[s.op]||(groups[s.op]=[])).push({n:p.n,dom:d.name,t:TYPES[p.t].l,p:s.ponder,temp:TEMPS[s.temp].l,sem:s.semnif||''});
+      }));
+
+      [{k:'D',label:'OPERAȚII DIRECTE'},{k:'C',label:'OPERAȚII DE CONECTARE'},{k:'O',label:'OPERAȚII DE OPTIMIZARE'},{k:'F',label:'FITNESS'}].forEach(phase=>{
+        synData.push([phase.label]);
+        synData.push(['Parametru','Domeniu','Tip','Pondere','Reg. temporal','Semnificație']);
+        const items=groups[phase.k]||[];
+        items.sort((a,b)=>b.p-a.p);
+        items.forEach(it=>synData.push([it.n,it.dom,it.t,it.p,it.temp,it.sem]));
+        if(!items.length) synData.push(['(niciun parametru în această categorie)']);
+        synData.push([]);
+      });
+
+      const ws3=XLSX.utils.aoa_to_sheet(synData);
+      ws3['!cols']=[{wch:42},{wch:22},{wch:14},{wch:10},{wch:14},{wch:40}];
+      XLSX.utils.book_append_sheet(wb, ws3, 'Sinteză Operații');
+
+      document.getElementById('progFill').style.width='90%';
+
+      // ── SAVE ──
+      const safeName=student.replace(/[^a-zA-Z0-9_\-\.]/g,'_').substring(0,30);
+      const safeSit=sit.replace(/[^a-zA-Z0-9_\-\.]/g,'_').substring(0,20);
+      const isoDate=new Date().toISOString().split('T')[0];
+      const filename=`Matrice_${safeName}_${safeSit}_${isoDate}.xlsx`;
+
+      XLSX.writeFile(wb, filename);
+
+      document.getElementById('progFill').style.width='100%';
+      document.getElementById('progLabel').textContent='Descărcat!';
+      document.getElementById('filenameLabel').textContent=filename;
+      document.getElementById('modalOk').classList.add('show');
+      toast('✓ Excel descărcat: '+filename,'tok');
+
+    }catch(e){
+      toast('Eroare la export Excel: '+e.message,'terr');
+      document.getElementById('progLabel').textContent='Eroare: '+e.message;
+    }
+  },100);
+}
+
+// ── EXPORT CSV (backup) ──
+function exportCSV(){
+  const student=document.getElementById('stName').value.trim()||'student';
+  const sit=document.getElementById('sitName').value.trim()||'sit';
+  document.getElementById('progWrap').classList.add('show');
+  document.getElementById('progFill').style.width='50%';
+  setTimeout(()=>{
+    try{
+      const rows=[],BOM='\uFEFF';
+      rows.push(['MATRICE PARAMETRICĂ','','','','','','','','','']);
+      rows.push(['Student',q(student),'Sit',q(sit),'Data',q(new Date().toLocaleDateString('ro-RO'))]);
+      rows.push([]);
+      rows.push(['Nr.','Domeniu','Parametru','Tip','Op. impl.','Pondere','Op. sel.','Reg. temporal','Semnificație','Relații','Notă']);
+      let nr=1;
+      DOMAINS.forEach(d=>{d.params.forEach((p,i)=>{const s=gs(d.id,i);
+        rows.push([nr++,q(d.name),q(p.n),q(TYPES[p.t].l),q(OPS[p.op].l),s.ponder,q(OPS[s.op].l),q(TEMPS[s.temp].l),q(s.semnif),q(s.relatie),q(p.note)]);
+      });rows.push([]);});
+      rows.push(['CONCEPT-SURSĂ',q(gv('concSrc'))]);
+      const csv=BOM+rows.map(r=>r.length?r.map(c=>{const s=String(c??'');if(s.startsWith('"')&&s.endsWith('"'))return s;if(!isNaN(s)&&s!=='')return s;return '"'+s.replace(/"/g,'""')+'"';}).join(';'):'').join('\r\n');
+      const fn=`Matrice_${student.replace(/[^a-zA-Z0-9_]/g,'_').substring(0,30)}_${new Date().toISOString().split('T')[0]}.csv`;
+      const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+      const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=fn;a.click();
+      document.getElementById('progFill').style.width='100%';
+      document.getElementById('filenameLabel').textContent=fn;
+      document.getElementById('modalOk').classList.add('show');
+      toast('✓ CSV descărcat: '+fn,'tok');
+    }catch(e){toast('Eroare CSV: '+e.message,'terr');}
+  },50);
+}
+
+// ── EXPORT SVG ──
+function exportSVG(){
+  const svg=document.getElementById('decisionSvg');
+  if(!svg){toast('Deschide mai întâi tab-ul Diagrama Decizională și completează parametri.','terr');return;}
+  const student=document.getElementById('stName').value.trim()||'student';
+  const fn=`Diagrama_${student.replace(/[^a-zA-Z0-9_]/g,'_').substring(0,30)}_${new Date().toISOString().split('T')[0]}.svg`;
+  const blob=new Blob([svg.outerHTML],{type:'image/svg+xml'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=fn;a.click();
+  toast('✓ SVG descărcat: '+fn,'tok');
+}
+
+// ═══ EXPORT ZIP — pachet complet ════════════════════════════════════════
+async function exportZIP(){
+  const student=document.getElementById('stName').value.trim()||'student';
+  const sit=document.getElementById('sitName').value.trim()||'sit';
+  const safeName=student.replace(/[^a-zA-Z0-9_\-\.]/g,'_').substring(0,30);
+  const safeSit=sit.replace(/[^a-zA-Z0-9_\-\.]/g,'_').substring(0,20);
+  const isoDate=new Date().toISOString().split('T')[0];
+  const prefix=`Matrice_${safeName}_${safeSit}_${isoDate}`;
+  
+  document.getElementById('progWrap').classList.add('show');
+  document.getElementById('progFill').style.width='10%';
+  document.getElementById('progLabel').textContent='Se generează Excel...';
+  
+  try {
+    const zip = new JSZip();
+    
+    // 1. EXCEL — refolosesc logica existentă
+    document.getElementById('progFill').style.width='20%';
+    const wb=XLSX.utils.book_new();
+    const dateStr=new Date().toLocaleDateString('ro-RO');
+    
+    // Sheet Matrice
+    const wsData=[['MATRICE PARAMETRICA — TAXONOMIA ANALIZEI URBANE'],
+      ['Autor instrument: Prof. Bogdan Serbanoiu','','','','','','','© 2025-2026 Bogdan Serbanoiu'],
+      ['Student:',student,'','Sit analizat:',sit,'','Data:',dateStr],[]];
+    const tots=DOMAINS.map(d=>d.params.reduce((_,__,i)=>_+gs(d.id,i).ponder,0));
+    wsData.push(['TOTALURI PE DOMENII']);
+    DOMAINS.forEach((d,di)=>wsData.push([d.name,tots[di],'/ '+d.params.length*5+' max']));
+    wsData.push(['TOTAL GENERAL',tots.reduce((a,b)=>a+b,0),'/ '+TOTAL*5+' max'],[]);
+    wsData.push(['Nr.','Domeniu','Parametru','Tip epistemic','Op. implicita','Pondere','Op. selectata','Regim temporal','Semnificatie','Relatii','Nota']);
+    let nr=1;
+    DOMAINS.forEach(d=>{d.params.forEach((p,i)=>{const s=gs(d.id,i);
+      wsData.push([nr++,d.name,p.n,TYPES[p.t].l,OPS[p.op].l,s.ponder,OPS[s.op].l,TEMPS[s.temp].l,s.semnif||'',s.relatie||'',p.note]);});});
+    const ws=XLSX.utils.aoa_to_sheet(wsData);
+    ws['!cols']=[{wch:5},{wch:22},{wch:42},{wch:14},{wch:14},{wch:10},{wch:14},{wch:14},{wch:36},{wch:32},{wch:50}];
+    XLSX.utils.book_append_sheet(wb,ws,'Matrice Parametrica');
+    
+    // Sheet Note
+    const notesData=[['NOTE CONCEPTUALE — '+student],['Sit:',sit,'Data:',dateStr],[]];
+    notesData.push(['Constrangeri directe',gv('dirN')],['Ipoteza 1',gv('conH1')],['Ipoteza 2',gv('conH2')],['Ipoteza 3',gv('conH3')],
+      ['Config. conceptuala',gv('conCfg')],['Optimizare A',gv('optH1')],['Optimizare B',gv('optH2')],['Semnif. emergente',gv('optMn')],
+      [],['CONCEPT-SURSA',gv('concSrc')],[],['Fitness',gv('fitN')],['Variante',gv('solN')]);
+    const ws2=XLSX.utils.aoa_to_sheet(notesData);
+    ws2['!cols']=[{wch:32},{wch:80}];
+    XLSX.utils.book_append_sheet(wb,ws2,'Note Conceptuale');
+    
+    const xlsxBuffer=XLSX.write(wb,{bookType:'xlsx',type:'array'});
+    zip.file(prefix+'.xlsx', xlsxBuffer);
+    
+    document.getElementById('progFill').style.width='40%';
+    document.getElementById('progLabel').textContent='Se generează diagramele...';
+    
+    // 2. DIAGRAMA DECIZIONALĂ SVG
+    // Generăm diagrama dacă nu e deja generată
+    const oldPhase = currentPhase;
+    renderDiagram();
+    const decSvg=document.getElementById('decisionSvg');
+    if(decSvg){
+      zip.file('Diagrama_Decizionala_'+safeName+'.svg', decSvg.outerHTML);
+    }
+    
+    document.getElementById('progFill').style.width='60%';
+    
+    // 3. RADAR SVG — generăm radar-ul și capturăm cu Plotly.toImage
+    renderRadarStudent();
+    const radarDiv = document.getElementById('radarStudentChart');
+    if(radarDiv && radarDiv.data){
+      try {
+        const radarSvgUrl = await Plotly.toImage(radarDiv, {format:'svg', width:600, height:500});
+        // radarSvgUrl is a data:image/svg+xml;base64,... string
+        const svgContent = atob(radarSvgUrl.split(',')[1]);
+        zip.file('Radar_Domenii_'+safeName+'.svg', svgContent);
+      } catch(e){ /* radar SVG export failed silently */ }
+    }
+    
+    document.getElementById('progFill').style.width='80%';
+    document.getElementById('progLabel').textContent='Se creează arhiva ZIP...';
+    
+    // 4. JSON BACKUP
+    const jsonData = serializeAll();
+    zip.file('Backup_'+safeName+'.json', JSON.stringify(jsonData, null, 2));
+    
+    // Generează ZIP
+    const zipBlob = await zip.generateAsync({type:'blob'});
+    const zipFn = prefix+'.zip';
+    
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(zipBlob);
+    a.download=zipFn;
+    a.click();
+    
+    document.getElementById('progFill').style.width='100%';
+    document.getElementById('progLabel').textContent='Descărcat!';
+    document.getElementById('filenameLabel').textContent=zipFn;
+    document.getElementById('modalOk').classList.add('show');
+    toast('✓ ZIP descărcat: '+zipFn,'tok');
+    
+    // Restaurăm faza curentă
+    if(oldPhase !== 5 && oldPhase !== 7) setPhase(oldPhase);
+    
+  } catch(e){
+    toast('Eroare la export ZIP: '+e.message,'terr');
+    document.getElementById('progLabel').textContent='Eroare: '+e.message;
+  }
+}
+
+function gv(id){return document.getElementById(id)?.value||'';}
+
+// ═══ DIAGRAMA DECIZIONALĂ ═════════════════════════════════════════════════
+
+// Utility: parse relatie text to find references to other param names
+function findConnections(item, allItems){
+  const conns=[];
+  if(!item.relatie) return conns;
+  const rel=item.relatie.toLowerCase();
+  allItems.forEach(other=>{
+    if(other.did===item.did && other.idx===item.idx) return; // skip self
+    // Check if the relatie text contains a significant portion of the other param's name
+    const words=other.n.toLowerCase().split(/[\s,()\/\-]+/).filter(w=>w.length>3);
+    const matched=words.filter(w=>rel.includes(w));
+    if(matched.length>=1) conns.push(other);
+  });
+  return conns;
+}
+
+function renderDiagram(){
+  const area=document.getElementById('diagramArea');
+  const student=document.getElementById('stName').value.trim();
+  const sit=document.getElementById('sitName').value.trim();
+  const conceptText=gv('concSrc');
+
+  // Collect active params with relatie data
+  const groups={D:[],C:[],O:[],F:[]};
+  const allActive=[];
+  DOMAINS.forEach(d=>d.params.forEach((p,i)=>{
+    const s=gs(d.id,i);
+    if(s.ponder<1) return;
+    const item={n:p.n,ponder:s.ponder,dom:d.name,col:d.color,t:p.t,op:s.op,semnif:s.semnif,relatie:s.relatie,did:d.id,idx:i,nodeKey:`${d.id}_${i}`};
+    (groups[s.op]||(groups[s.op]=[])).push(item);
+    allActive.push(item);
+  }));
+  Object.values(groups).forEach(a=>a.sort((x,y)=>y.ponder-x.ponder));
+
+  const allCount=allActive.length;
+
+  if(!allCount){
+    area.innerHTML=`<div class="diagram-empty"><div>
+      <div style="font-size:44px;margin-bottom:10px;opacity:.25">◇</div>
+      <div style="font-weight:700;margin-bottom:4px;font-size:12px">Diagrama decizională se generează automat</div>
+      <div style="font-size:10.5px;line-height:1.7">Acordă ponderi parametrilor în Faza 1.<br>Parametrii cu pondere ≥ 1 apar în graf, organizați<br>pe tipul de operație (D / C / O / F).<br><br>Completează câmpul „Relații cu alți parametri" pentru<br>a vedea legăturile în diagramă.</div>
+    </div></div>`;
+    return;
+  }
+
+  // Layout
+  const colW=220, nodeH=30, nodeGap=5, phaseGap=40, padL=28, padT=90;
+  const legendH=72; // space for legend at bottom
+  const phases=[
+    {k:'D',label:'OPERAȚII DIRECTE',sub:'Baza + Limitele',items:groups.D,clr:'#8B0000',bg:'#FFF0F0'},
+    {k:'C',label:'OPERAȚII CONECTARE',sub:'Prima config. conceptuală',items:groups.C,clr:'#1E5799',bg:'#E8F0FF'},
+    {k:'O',label:'OPERAȚII OPTIMIZARE',sub:'Emergența semnificației',items:groups.O,clr:'#4A235A',bg:'#F3EEF8'},
+    {k:'F',label:'FITNESS + SOLUȚIE',sub:'Cristalizarea formei',items:groups.F,clr:'#7B4100',bg:'#FFF8EE'},
+  ];
+  const maxR=Math.max(3,...phases.map(p=>p.items.length));
+  const W=padL*2+phases.length*colW+(phases.length-1)*phaseGap;
+  const H=padT+maxR*(nodeH+nodeGap)+180+legendH;
+
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function trunc(s,n){return s.length>n?s.substring(0,n-1)+'…':s;}
+
+  // Build node position map
+  const nodePos={}; // nodeKey -> {cx, cy, x0, x1, y0, y1, phase}
+  phases.forEach((ph,ci)=>{
+    const x0=padL+ci*(colW+phaseGap);
+    ph.items.forEach((item,ni)=>{
+      const nx=x0+8, ny=padT+38+ni*(nodeH+nodeGap), nw=colW-16;
+      nodePos[item.nodeKey]={cx:x0+colW/2, cy:ny+nodeH/2, x0:nx, x1:nx+nw, y0:ny, y1:ny+nodeH, phase:ci, phaseX0:x0, phaseX1:x0+colW};
+    });
+  });
+
+  let svg=`<svg xmlns="http://www.w3.org/2000/svg" id="decisionSvg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" style="font-family:Arial,sans-serif">`;
+  svg+=`<rect width="${W}" height="${H}" fill="#F8F9FC" rx="10"/>`;
+
+  // ── Title block ──
+  svg+=`<rect x="0" y="0" width="${W}" height="72" fill="#1F3864" rx="10"/>`;
+  svg+=`<rect x="0" y="10" width="${W}" height="62" fill="#1F3864"/>`;
+  svg+=`<text x="${W/2}" y="24" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Diagrama Decizională — Taxonomia Analizei Urbane</text>`;
+  if(student){
+    svg+=`<text x="${W/2}" y="42" text-anchor="middle" font-size="11" fill="#B8C7E0" font-weight="600">${esc(student)}${sit?' — Sit: '+esc(sit):''}</text>`;
+  }
+  svg+=`<text x="${W/2}" y="58" text-anchor="middle" font-size="9" fill="#7A8FAD">${allCount} parametri activi · ${groups.D.length}D + ${groups.C.length}C + ${groups.O.length}O + ${groups.F.length}F · ${new Date().toLocaleDateString('ro-RO')}</text>`;
+  svg+=`<text x="${W-padL}" y="68" text-anchor="end" font-size="7" fill="#5A6E8A" opacity="0.6">© Prof. Bogdan Șerbănoiu</text>`;
+
+  // ── Arrow defs ──
+  phases.forEach((ph,ci)=>{
+    svg+=`<defs><marker id="ma${ci}" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="${ph.clr}" opacity="0.45"/></marker></defs>`;
+  });
+  svg+=`<defs><marker id="maC" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#1F3864" opacity="0.4"/></marker></defs>`;
+  svg+=`<defs><marker id="maFB" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto"><polygon points="0 0,6 2,0 4" fill="#8B0000" opacity="0.3"/></marker></defs>`;
+  svg+=`<defs><marker id="maRel" markerWidth="5" markerHeight="4" refX="4" refY="2" orient="auto"><polygon points="0 0,5 2,0 4" fill="#E67E22" opacity="0.7"/></marker></defs>`;
+
+  // ── Phase columns + nodes ──
+  phases.forEach((ph,ci)=>{
+    const x0=padL+ci*(colW+phaseGap);
+    const y0=padT;
+    const colH=Math.max(ph.items.length,1)*(nodeH+nodeGap)+52;
+
+    svg+=`<rect x="${x0}" y="${y0}" width="${colW}" height="${colH}" rx="8" fill="${ph.bg}" stroke="${ph.clr}" stroke-width="1" opacity="0.7"/>`;
+    svg+=`<text x="${x0+colW/2}" y="${y0+16}" text-anchor="middle" font-size="8" font-weight="700" fill="${ph.clr}" letter-spacing="1">${ph.label}</text>`;
+    svg+=`<text x="${x0+colW/2}" y="${y0+28}" text-anchor="middle" font-size="7.5" fill="${ph.clr}" opacity="0.7">${ph.sub}</text>`;
+
+    ph.items.forEach((item,ni)=>{
+      const nx=x0+8, ny=y0+38+ni*(nodeH+nodeGap), nw=colW-16;
+      svg+=`<rect x="${nx}" y="${ny}" width="${nw}" height="${nodeH}" rx="5" fill="#fff" stroke="${item.col}" stroke-width="1.1"/>`;
+      // Type indicator bar
+      svg+=`<rect x="${nx+3}" y="${ny+8}" width="4" height="14" rx="2" fill="${TYPES[item.t].c}"/>`;
+      // Name
+      svg+=`<text x="${nx+12}" y="${ny+13}" font-size="8.5" font-weight="600" fill="#1A1A2E">${esc(trunc(item.n,24))}</text>`;
+      // Domain
+      svg+=`<text x="${nx+12}" y="${ny+23}" font-size="6.5" fill="#7A8094">${esc(item.dom)}</text>`;
+      // Ponder badge
+      const bx=nx+nw-18;
+      svg+=`<rect x="${bx}" y="${ny+5}" width="14" height="14" rx="3" fill="${PC[item.ponder]}"/>`;
+      svg+=`<text x="${bx+7}" y="${ny+15}" text-anchor="middle" font-size="8" font-weight="700" fill="${item.ponder===4?'#333':'#fff'}">${item.ponder}</text>`;
+      // Relatie indicator dot (orange) if has connections
+      if(item.relatie && item.relatie.trim()){
+        svg+=`<circle cx="${nx+nw-4}" cy="${ny+nodeH-4}" r="3" fill="#E67E22" opacity="0.7"/>`;
+      }
+    });
+
+    if(!ph.items.length){
+      svg+=`<text x="${x0+colW/2}" y="${y0+55}" text-anchor="middle" font-size="8" fill="#B0B4C0" font-style="italic">—</text>`;
+    }
+  });
+
+  // ── Flow arrows between phases ──
+  for(let ci=0;ci<phases.length-1;ci++){
+    const f=phases[ci], t=phases[ci+1];
+    if(!f.items.length||!t.items.length) continue;
+    const fx=padL+ci*(colW+phaseGap)+colW;
+    const tx=padL+(ci+1)*(colW+phaseGap);
+    const mx=(fx+tx)/2;
+    const fy=padT+38+Math.max(0,(f.items.length-1)*(nodeH+nodeGap)/2)+nodeH/2;
+    const ty=padT+38+Math.max(0,(t.items.length-1)*(nodeH+nodeGap)/2)+nodeH/2;
+    svg+=`<path d="M${fx+3},${fy} C${mx},${fy} ${mx},${ty} ${tx-3},${ty}" stroke="${t.clr}" stroke-width="2" fill="none" opacity="0.3" marker-end="url(#ma${ci+1})"/>`;
+  }
+
+  // ── Connection edges (relații între parametri) ──
+  // Drawn as orange curved lines between nodes that reference each other
+  const drawnEdges=new Set();
+  allActive.forEach(item=>{
+    const conns=findConnections(item, allActive);
+    const fromPos=nodePos[item.nodeKey];
+    if(!fromPos) return;
+    conns.forEach(target=>{
+      const toPos=nodePos[target.nodeKey];
+      if(!toPos) return;
+      const edgeKey=[item.nodeKey,target.nodeKey].sort().join('|');
+      if(drawnEdges.has(edgeKey)) return;
+      drawnEdges.add(edgeKey);
+
+      // Determine edge routing based on relative positions
+      let fx, fy, tx, ty;
+      if(fromPos.phase < toPos.phase){
+        // left→right: exit right, enter left
+        fx=fromPos.x1+1; fy=fromPos.cy;
+        tx=toPos.x0-1; ty=toPos.cy;
+      } else if(fromPos.phase > toPos.phase){
+        fx=fromPos.x0-1; fy=fromPos.cy;
+        tx=toPos.x1+1; ty=toPos.cy;
+      } else {
+        // same column: curve outward to the right
+        fx=fromPos.x1+1; fy=fromPos.cy;
+        tx=toPos.x1+1; ty=toPos.cy;
+      }
+
+      if(fromPos.phase===toPos.phase){
+        // Same-column: arc to the right
+        const bulge=30;
+        svg+=`<path d="M${fx},${fy} C${fx+bulge},${fy} ${tx+bulge},${ty} ${tx},${ty}" stroke="#E67E22" stroke-width="1.3" fill="none" opacity="0.4" stroke-dasharray="3,2" marker-end="url(#maRel)"/>`;
+      } else {
+        // Cross-column: S-curve
+        const mx2=(fx+tx)/2;
+        svg+=`<path d="M${fx},${fy} C${mx2},${fy} ${mx2},${ty} ${tx},${ty}" stroke="#E67E22" stroke-width="1.3" fill="none" opacity="0.4" stroke-dasharray="3,2" marker-end="url(#maRel)"/>`;
+      }
+    });
+  });
+
+  // ── Concept-Sursă node ──
+  const cY=padT+maxR*(nodeH+nodeGap)+68;
+  const cX=W/2-130, cW2=260;
+  svg+=`<rect x="${cX}" y="${cY}" width="${cW2}" height="46" rx="8" fill="#1F3864" stroke="#2E4B8C" stroke-width="2"/>`;
+  svg+=`<text x="${W/2}" y="${cY+17}" text-anchor="middle" font-size="9" font-weight="700" fill="#fff" letter-spacing=".5">CONCEPT-SURSĂ</text>`;
+  if(conceptText){
+    svg+=`<text x="${W/2}" y="${cY+32}" text-anchor="middle" font-size="7.5" fill="#B8C7E0" font-style="italic">${esc(trunc(conceptText,55))}</text>`;
+  } else {
+    svg+=`<text x="${W/2}" y="${cY+32}" text-anchor="middle" font-size="7" fill="#6A7A96">completează Concept-Sursă în tab-ul Faza 3</text>`;
+  }
+
+  // Arrow from last active phase to concept
+  const lastPh=[...phases].reverse().find(p=>p.items.length>0);
+  if(lastPh){
+    const lci=phases.indexOf(lastPh);
+    const lx=padL+lci*(colW+phaseGap)+colW/2;
+    const ly=padT+38+lastPh.items.length*(nodeH+nodeGap)+8;
+    svg+=`<path d="M${lx},${ly} C${lx},${(ly+cY)/2} ${W/2},${(ly+cY)/2} ${W/2},${cY}" stroke="#1F3864" stroke-width="1.8" fill="none" opacity="0.22" stroke-dasharray="5,3" marker-end="url(#maC)"/>`;
+  }
+
+  // Feedback loop
+  if(groups.D.length>0){
+    const fbY=cY+46;
+    const fbX0=padL+colW/2;
+    const fbYtop=padT+38+groups.D.length*(nodeH+nodeGap)+8;
+    svg+=`<path d="M${W/2},${fbY} L${W/2},${fbY+16} L${fbX0},${fbY+16} L${fbX0},${fbYtop}" stroke="#8B0000" stroke-width="1" fill="none" opacity="0.18" stroke-dasharray="3,3" marker-end="url(#maFB)"/>`;
+    svg+=`<text x="${(fbX0+W/2)/2}" y="${fbY+12}" text-anchor="middle" font-size="6.5" fill="#8B0000" opacity="0.4" font-style="italic">feedback-loop (iterații avansate)</text>`;
+  }
+
+  // ═══ LEGENDA ═══
+  const legY=H-legendH-4;
+  svg+=`<rect x="${padL}" y="${legY}" width="${W-padL*2}" height="${legendH}" rx="8" fill="#fff" stroke="#D8DCE8" stroke-width="1"/>`;
+  svg+=`<text x="${padL+10}" y="${legY+14}" font-size="8" font-weight="700" fill="#1A1A2E" letter-spacing=".5">LEGENDĂ</text>`;
+
+  // Row 1: Tipuri epistemice
+  const legRow1Y=legY+26;
+  const typeEntries=[
+    {l:'Hard Absolut',c:'#8B0000',bg:'#FFEBEE'},
+    {l:'Hard Condit.',c:'#7B4100',bg:'#FFF3CD'},
+    {l:'Flexibil',c:'#2E4B8C',bg:'#E3EEFF'},
+    {l:'Negociabil',c:'#1F6B3E',bg:'#E8F5E9'}
+  ];
+  let lx=padL+10;
+  svg+=`<text x="${lx}" y="${legRow1Y}" font-size="7" fill="#6B7280" font-weight="600">Tip epistemic:</text>`;
+  lx+=68;
+  typeEntries.forEach(te=>{
+    svg+=`<rect x="${lx}" y="${legRow1Y-8}" width="5" height="10" rx="1.5" fill="${te.c}"/>`;
+    svg+=`<text x="${lx+8}" y="${legRow1Y}" font-size="7" fill="${te.c}" font-weight="600">${te.l}</text>`;
+    lx+=te.l.length*4.8+20;
+  });
+
+  // Row 2: Ponderi + Operații + Conexiuni
+  const legRow2Y=legY+42;
+  lx=padL+10;
+  svg+=`<text x="${lx}" y="${legRow2Y}" font-size="7" fill="#6B7280" font-weight="600">Pondere:</text>`;
+  lx+=48;
+  [0,1,2,3,4,5].forEach(v=>{
+    svg+=`<rect x="${lx}" y="${legRow2Y-8}" width="12" height="12" rx="2.5" fill="${PC[v]}"/>`;
+    svg+=`<text x="${lx+6}" y="${legRow2Y}" text-anchor="middle" font-size="7" font-weight="700" fill="${v===4?'#333':'#fff'}">${v}</text>`;
+    svg+=`<text x="${lx+16}" y="${legRow2Y}" font-size="6" fill="#6B7280">${PD[v]}</text>`;
+    lx+=PD[v].length*3.5+26;
+  });
+
+  // Row 3: Edge types
+  const legRow3Y=legY+58;
+  lx=padL+10;
+  svg+=`<text x="${lx}" y="${legRow3Y}" font-size="7" fill="#6B7280" font-weight="600">Linii:</text>`;
+  lx+=32;
+  // Flux
+  svg+=`<line x1="${lx}" y1="${legRow3Y-3}" x2="${lx+24}" y2="${legRow3Y-3}" stroke="#1E5799" stroke-width="2" opacity="0.4"/>`;
+  svg+=`<text x="${lx+28}" y="${legRow3Y}" font-size="7" fill="#1A1A2E">Flux procesual între faze</text>`;
+  lx+=150;
+  // Conexiune
+  svg+=`<line x1="${lx}" y1="${legRow3Y-3}" x2="${lx+24}" y2="${legRow3Y-3}" stroke="#E67E22" stroke-width="1.3" opacity="0.5" stroke-dasharray="3,2"/>`;
+  svg+=`<circle cx="${lx+26}" cy="${legRow3Y-3}" r="2.5" fill="#E67E22" opacity="0.7"/>`;
+  svg+=`<text x="${lx+32}" y="${legRow3Y}" font-size="7" fill="#1A1A2E">Relație declarată între parametri</text>`;
+  lx+=180;
+  // Feedback
+  svg+=`<line x1="${lx}" y1="${legRow3Y-3}" x2="${lx+24}" y2="${legRow3Y-3}" stroke="#8B0000" stroke-width="1" opacity="0.25" stroke-dasharray="3,3"/>`;
+  svg+=`<text x="${lx+28}" y="${legRow3Y}" font-size="7" fill="#1A1A2E">Feedback-loop (iterații avansate)</text>`;
+  lx+=170;
+  // Concept
+  svg+=`<line x1="${lx}" y1="${legRow3Y-3}" x2="${lx+24}" y2="${legRow3Y-3}" stroke="#1F3864" stroke-width="1.8" opacity="0.3" stroke-dasharray="5,3"/>`;
+  svg+=`<text x="${lx+28}" y="${legRow3Y}" font-size="7" fill="#1A1A2E">Convergență → Concept-Sursă</text>`;
+
+  // Connection count
+  const connCount=drawnEdges.size;
+  if(connCount>0){
+    svg+=`<text x="${W-padL-10}" y="${legRow1Y}" text-anchor="end" font-size="8" fill="#E67E22" font-weight="700">${connCount} relații identificate</text>`;
+  }
+
+  svg+=`</svg>`;
+  area.innerHTML=`<div class="diagram-wrap">${svg}</div>`;
+}
+
+function updateDiagramIfVisible(){
+  if(currentPhase===5) renderDiagram();
+  if(currentPhase===6) render3DMain();
+  if(currentPhase===7) renderRadarStudent();
+}
+
+// ═══ BUILD UI ════════════════════════════════════════════════════════════
+function buildDomains(){
+  const c=document.getElementById('domains');c.innerHTML='';
+  DOMAINS.forEach((d,di)=>{
+    const tot=d.params.reduce((s,_,i)=>s+gs(d.id,i).ponder,0);
+    const el=document.createElement('div');el.className='card';
+    el.innerHTML=`<div class="ch" onclick="tc('cb${di}')">
+      <div class="cdot" style="background:${d.color}"></div>
+      <div class="cttl">${d.name} <span style="font-weight:400;font-size:9.5px;color:var(--muted)">(${d.params.length} param.)</span></div>
+      <div class="cbdg" style="background:${d.lbg};color:${d.color}">Tot: ${tot}/${d.params.length*5}</div>
+      <div class="carr" id="ca${di}">▼</div></div>
+    <div class="cb" id="cb${di}">
+      <div class="plgd">
+        <span style="font-size:8px;color:var(--muted);font-weight:700;margin-right:2px">PONDERE →</span>
+        ${[0,1,2,3,4,5].map(v=>`<div class="pli"><div class="pldot" style="background:${PC[v]};color:${v===4?'#444':'#fff'}">${v}</div><span>${PD[v]}</span></div>`).join('')}
+        <span style="font-size:8px;color:var(--muted);font-weight:700;margin-left:6px">OP:</span>
+        ${Object.entries(OPS).map(([k,ov])=>`<span style="font-size:7.5px;padding:1px 3px;border-radius:4px;background:${ov.bg};color:${ov.c};font-weight:700">${k}=${ov.l}</span>`).join('')}
+        <span style="font-size:8px;color:var(--muted);font-weight:700;margin-left:6px">TEMP:</span>
+        ${Object.entries(TEMPS).map(([k,tv])=>`<span style="font-size:7.5px;padding:1px 3px;border-radius:4px;background:${tv.bg};color:${tv.c};font-weight:700">${k}=${tv.l}</span>`).join('')}
+      </div>
+      ${d.params.map((p,i)=>bpb(d,i,p)).join('')}
+      <div class="tbar">
+        <div class="tnum" id="tot_${d.id}">${tot}</div>
+        <div style="flex:1">
+          <div class="tlbl">Total ponderi / ${d.params.length*5} max</div>
+          <div class="pbar"><div class="pfill" id="pf_${d.id}" style="width:${tot/(d.params.length*5)*100}%"></div></div>
+        </div>
+      </div>
+    </div>`;
+    c.appendChild(el);
+  });
+}
+
+function bpb(d,i,p){
+  const s=gs(d.id,i),tid=`${d.id}_${i}`,t=TYPES[p.t];
+  const ps=[0,1,2,3,4,5].map(v=>`<button class="psb${s.ponder===v?' s s'+v:''}" title="${v} — ${PD[v]}" onclick="sp('${d.id}',${i},${v})">${v}</button>`).join('');
+  const ob=Object.entries(OPS).map(([k])=>`<button class="ob${s.op===k?' s'+k:''}" onclick="so('${d.id}',${i},'${k}')">${k}</button>`).join('');
+  const tb=Object.entries(TEMPS).map(([k])=>`<button class="tb${s.temp===k?' s'+k:''}" title="${TEMPS[k].l}" onclick="stt('${d.id}',${i},'${k}')">${k}</button>`).join('');
+  return `<div id="pb_${tid}" class="pb">
+    <div class="pt">
+      <div style="width:7px;height:7px;border-radius:2px;flex-shrink:0;background:${t.c};margin-right:2px;margin-top:3px"></div>
+      <div class="pnm">${p.n}</div>
+      <span class="tbdg" style="background:${t.bg};color:${t.c}">${t.l}</span>
+      <div class="psel">${ps}</div>
+      <div class="osel">${ob}</div>
+      <div class="tsel">${tb}</div>
+    </div>
+    <div class="pnt">💡 ${p.note}</div>
+    <div class="sfd${s.ponder>=3?' open':''}" id="sf_${tid}">
+      <input class="ri" placeholder="Semnificație pentru concept (specific sitului tău)..." value="${s.semnif}" oninput="ss('${d.id}',${i},'semnif',this.value)">
+      <input class="ri" style="margin-top:2px" placeholder="Relații cu alți parametri..." value="${s.relatie}" oninput="ss('${d.id}',${i},'relatie',this.value)">
+    </div>
+  </div>`;
+}
+
+function sp(did,idx,val){ST[`${did}_${idx}`].ponder=val;rbp(did,idx);ut(did);uc();us();updateDiagramIfVisible();}
+function so(did,idx,op){ST[`${did}_${idx}`].op=op;rbp(did,idx);uc();us();updateDiagramIfVisible();}
+function stt(did,idx,temp){ST[`${did}_${idx}`].temp=temp;rbp(did,idx);updateDiagramIfVisible();}
+function ss(did,idx,f,v){ST[`${did}_${idx}`][f]=v;}
+function rbp(did,idx){const d=DOMAINS.find(x=>x.id===did),el=document.getElementById(`pb_${did}_${idx}`);if(el)el.outerHTML=bpb(d,idx,d.params[idx]);}
+
+function ut(did){
+  const d=DOMAINS.find(x=>x.id===did),tot=d.params.reduce((_,__,i)=>_+gs(did,i).ponder,0);
+  const e=document.getElementById('tot_'+did),pb=document.getElementById('pf_'+did);
+  if(e)e.textContent=tot;if(pb)pb.style.width=(tot/(d.params.length*5)*100)+'%';
+}
+
+function uc(){
+  let filled=0;const dir=[],con=[],opt=[];
+  DOMAINS.forEach(d=>d.params.forEach((p,i)=>{
+    const s=gs(d.id,i);if(s.ponder>0)filled++;
+    if(s.ponder>=3){
+      const it={n:p.n,ponder:s.ponder,dom:d.name,col:d.color,t:p.t,op:s.op,semnif:s.semnif};
+      if(s.op==='D')dir.push(it);else if(s.op==='C')con.push(it);else if(s.op==='O')opt.push(it);
+    }
+  }));
+  document.getElementById('cnt0').textContent=`${filled}/${TOTAL}`;
+  document.getElementById('cnt1').textContent=`${dir.length} activi`;
+  document.getElementById('cnt2').textContent=`${con.length} activi`;
+  document.getElementById('cnt3').textContent=`${opt.length} activi`;
+  rl2('dirList',dir);rl2('conList',con);rl2('optList',opt);
+}
+
+function rl2(id,items){
+  const el=document.getElementById(id);if(!el)return;
+  if(!items.length){el.innerHTML='<p style="font-size:10px;color:var(--muted);padding:6px 0">Niciun parametru cu pondere ≥ 3 în această categorie.</p>';return;}
+  el.innerHTML=[...items].sort((a,b)=>b.ponder-a.ponder).map(it=>`<div class="srow">
+    <div style="width:7px;height:7px;border-radius:2px;flex-shrink:0;background:${it.col};margin-top:3px"></div>
+    <div class="snm">${it.n} <span style="color:var(--muted);font-size:8.5px">(${it.dom})</span>
+      ${it.semnif?`<div style="font-size:8.5px;color:var(--muted);font-style:italic;margin-top:1px">"${it.semnif}"</div>`:''}</div>
+    <span style="font-size:7.5px;padding:1px 3px;border-radius:4px;background:${TYPES[it.t].bg};color:${TYPES[it.t].c};font-weight:700;white-space:nowrap">${TYPES[it.t].l}</span>
+    <span style="font-size:13px;font-weight:700;color:${PC[it.ponder]};min-width:15px;text-align:center">${it.ponder}</span>
+  </div>`).join('');
+}
+
+function us(){
+  const top=[];
+  DOMAINS.forEach(d=>d.params.forEach((p,i)=>{const s=gs(d.id,i);if(s.ponder>=4)top.push({n:p.n,ponder:s.ponder,dom:d.name,col:d.color,op:s.op,semnif:s.semnif});}));
+  top.sort((a,b)=>b.ponder-a.ponder);
+  const tEl=document.getElementById('topList');
+  if(tEl){
+    if(!top.length)tEl.innerHTML='<p style="font-size:10px;color:var(--muted);padding:4px 0">Niciun parametru cu pondere 4–5.</p>';
+    else tEl.innerHTML=top.map(it=>`<div class="srow">
+      <div style="width:7px;height:7px;border-radius:2px;flex-shrink:0;background:${it.col};margin-top:3px"></div>
+      <div class="snm">${it.n} <span style="color:var(--muted);font-size:8.5px">${it.dom}</span>
+        ${it.semnif?`<div style="font-size:8.5px;color:var(--muted);font-style:italic;margin-top:1px">"${it.semnif}"</div>`:''}</div>
+      <span style="font-size:7.5px;padding:1px 3px;border-radius:4px;background:${OPS[it.op].bg};color:${OPS[it.op].c};font-weight:700">${OPS[it.op].l}</span>
+      <span style="font-size:14px;font-weight:700;color:${PC[it.ponder]}">${it.ponder}</span>
+    </div>`).join('');
+  }
+  const vEl=document.getElementById('concVec');
+  if(vEl){
+    const v5=top.filter(x=>x.ponder===5);
+    if(!v5.length)vEl.innerHTML='<p style="font-size:10px;color:var(--muted);padding:6px 0">Acordă valoarea 5 în Faza 1.</p>';
+    else vEl.innerHTML=v5.map(it=>`<div class="vblk" style="background:${it.col}15;border-color:${it.col}">
+      <div style="font-size:11px;font-weight:700;color:${it.col}">${it.n}</div>
+      <div style="font-size:9px;color:var(--muted)">${it.dom} · ${OPS[it.op].l}</div>
+      ${it.semnif?`<div style="font-size:9.5px;color:var(--text);margin-top:2px;font-style:italic">"${it.semnif}"</div>`:''}</div>`).join('');
+  }
+}
+
+function tc(id){
+  const el=document.getElementById(id),ar=document.getElementById(id.replace('cb','ca'));
+  el.classList.toggle('open');if(ar)ar.classList.toggle('open',el.classList.contains('open'));
+}
+
+function setPhase(n){
+  currentPhase=n;
+  // Highlight correct tab using data-phase attribute (works across both bars)
+  document.querySelectorAll('.tab').forEach(el=>{
+    el.classList.toggle('on', parseInt(el.getAttribute('data-phase'))===n);
+  });
+  // Show/hide phase divs (0-7)
+  [0,1,2,3,4,5,6,7].forEach(i=>{const el=document.getElementById('ph'+i);if(el)el.style.display=i===n?'block':'none';});
+  if(n>0&&n<5)uc();if(n===4)us();
+  if(n===5)renderDiagram();
+  if(n===6)render3DMain();
+  if(n===7)renderRadarStudent();
+}
+
+function toast(msg,cls){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.className='toast '+cls;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),4000);
+}
+
+// Închide modal la click pe fundal
+document.getElementById('modalBg').addEventListener('click',function(e){
+  if(e.target===this)hideExport();
+});
+
+buildDomains();uc();
+
+// ═══ SPAȚIU TRIAXIAL 3D — VIZUALIZARE PLOTLY ════════════════════════════
+/*
+ * Maparea pe cele trei axe taxonomice:
+ *
+ * AXA X — Natura epistemică (din câmpul t/type):
+ *   HA (Hard Absolut)     = 0
+ *   HC (Hard Condițional) = 1  
+ *   FL (Flexibil)         = 2
+ *   NG (Negociabil)       = 3
+ *
+ * AXA Y — Potențialul generativ (din câmpul op/operație):
+ *   D (Directă/Reproductivă)   = 0
+ *   C (Conectare/Articulatorie) = 1
+ *   O (Optimizare/Emergentă)    = 2
+ *   F (Fitness/Cristalizare)    = 3
+ *
+ * AXA Z — Regimul temporal (derivat din corelația structurală):
+ *   Calculat ca medie ponderată a naturii epistemice și operației,
+ *   cu jitter aleatoriu mic pentru separare vizuală.
+ *   Modelează tendința: HA+D → fixare timpurie (0), NG+O → legare tardivă (1)
+ */
+
+const AXIS_X_MAP = {HA:0, HC:1, FL:2, NG:3};
+const AXIS_Y_MAP = {D:0, C:1, O:2, F:3};
+const AXIS_X_LABELS = ['Hard Absolut','Hard Condit.','Flexibil','Negociabil'];
+const AXIS_Y_LABELS = ['Directă (α)','Conectare (β)','Optimizare (γ)','Fitness'];
+const AXIS_Z_LABELS = ['Fixare timpurie','Ang. progresivă','Legare tardivă'];
+const AXIS_Z_MAP = {T:0, P:1, L:2};
+
+function computeTemporalScore(typeCode, opCode, ponder){
+  // Corelația structurală descrisă în articol:
+  // HA+D → early fixing (scor temporal mic)
+  // NG+O → late binding (scor temporal mare)
+  // Ponderea mare → tendința de fixare timpurie (angajare fermă)
+  const epistemicWeight = AXIS_X_MAP[typeCode] / 3;  // 0 → 1
+  const generativeWeight = AXIS_Y_MAP[opCode] / 3;   // 0 → 1
+  const ponderFactor = (5 - ponder) / 5;             // pondere mare → fixare timpurie
+  // Media ponderată: natura epistemică + potențialul generativ contribuie cel mai mult
+  const base = 0.45 * epistemicWeight + 0.40 * generativeWeight + 0.15 * ponderFactor;
+  // Scalare la intervalul [0, 2] pentru trei regimuri
+  return base * 2;
+}
+
+function expectedTemporalZ(typeCode, opCode){
+  return computeTemporalScore(typeCode, opCode, 3);
+}
+
+function collect3DData(){
+  const items = [];
+  // Funcție hash deterministă: același parametru → același jitter, întotdeauna
+  function hashJitter(str, seed){
+    let h = seed;
+    for(let i = 0; i < str.length; i++){
+      h = ((h << 5) - h + str.charCodeAt(i)) | 0;
+    }
+    // Normalizare în [-0.5, 0.5]
+    return ((h & 0x7FFFFFFF) % 1000) / 1000 - 0.5;
+  }
+  DOMAINS.forEach(d => d.params.forEach((p, i) => {
+    const s = gs(d.id, i);
+    if(s.ponder < 1) return;
+    const xVal = AXIS_X_MAP[p.t];
+    const yVal = AXIS_Y_MAP[s.op];
+    // ═══ AXA Z: VALOARE MANUALĂ din selectorul T/P/L ═══
+    const zVal = AXIS_Z_MAP[s.temp] !== undefined ? AXIS_Z_MAP[s.temp] : 1;
+    // Abaterea față de corelația structurală expectată
+    const zExpected = expectedTemporalZ(p.t, s.op);
+    const deviation = Math.abs(zVal - zExpected);
+    // Jitter determinist: depinde de identitatea parametrului, nu de momentul calculului
+    const key = `${d.id}_${i}_${p.n}`;
+    const jx = hashJitter(key, 17) * 0.2;
+    const jy = hashJitter(key, 53) * 0.2;
+    const jz = hashJitter(key, 97) * 0.15;
+    items.push({
+      name: p.n,
+      domain: d.name,
+      domainColor: d.color,
+      type: p.t,
+      typeLabel: TYPES[p.t].l,
+      typeColor: TYPES[p.t].c,
+      op: s.op,
+      opLabel: OPS[s.op].l,
+      opColor: OPS[s.op].c,
+      temp: s.temp,
+      tempLabel: TEMPS[s.temp].l,
+      ponder: s.ponder,
+      semnif: s.semnif,
+      relatie: s.relatie,
+      deviation: deviation,
+      did: d.id,
+      idx: i,
+      nodeKey: `${d.id}_${i}`,
+      n: p.n,
+      x: xVal + jx,
+      y: yVal + jy,
+      z: zVal + jz,
+      xRaw: xVal,
+      yRaw: yVal,
+      zRaw: zVal
+    });
+  }));
+  return items;
+}
+
+function getColor3D(item, mode){
+  if(mode === 'epistemic') return TYPES[item.type].c;
+  if(mode === 'operation') return OPS[item.op].c;
+  if(mode === 'temporal') return TEMPS[item.temp].c;
+  return item.domainColor;
+}
+
+function render3DMain(){
+  const items = collect3DData();
+  const colorMode = document.getElementById('colorMode3D')?.value || 'domain';
+  
+  if(!items.length){
+    document.getElementById('plot3DMain').innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#9E9E9E;font-size:12px;text-align:center"><div>Acordă ponderi parametrilor în Faza 1 pentru a genera vizualizarea triaxială.<br><br>Parametrii cu pondere ≥ 1 vor fi poziționați în spațiul tridimensional.</div></div>';
+    ['plotXY','plotXZ','plotYZ','plotDensity'].forEach(id=>{
+      const el = document.getElementById(id);
+      if(el) el.innerHTML = '';
+    });
+    return;
+  }
+
+  // Group by color source for legend
+  const groups = {};
+  items.forEach(it => {
+    const key = colorMode === 'domain' ? it.domain : colorMode === 'epistemic' ? it.typeLabel : colorMode === 'temporal' ? it.tempLabel : it.opLabel;
+    if(!groups[key]) groups[key] = {items:[], color: getColor3D(it, colorMode), name: key};
+    groups[key].items.push(it);
+  });
+
+  const traces3D = Object.values(groups).map(g => ({
+    x: g.items.map(i => i.x),
+    y: g.items.map(i => i.y),
+    z: g.items.map(i => i.z),
+    mode: 'markers',
+    type: 'scatter3d',
+    name: g.name,
+    marker: {
+      size: g.items.map(i => Math.max(4, i.ponder * 4 + 3)),
+      color: g.color,
+      opacity: 0.85,
+      line: {color: '#fff', width: 0.5}
+    },
+    text: g.items.map(i => 
+      `<b>${i.name}</b><br>` +
+      `Domeniu: ${i.domain}<br>` +
+      `Tip: ${i.typeLabel} | Op: ${i.opLabel} | Temp: ${i.tempLabel}<br>` +
+      `Pondere: ${i.ponder}/5` +
+      (i.deviation > 0.6 ? `<br><b style="color:#E65100">⚠ Abatere de la corelația structurală</b>` : '') +
+      (i.semnif ? `<br><i>${i.semnif}</i>` : '')
+    ),
+    hoverinfo: 'text'
+  }));
+
+  // ═══ CONEXIUNI 3D — arce între parametri cu relații declarate ═══
+  const showConns = document.getElementById('showConns3D')?.checked !== false;
+  const edgeX = [], edgeY = [], edgeZ = [], edgeHover = [];
+  const drawnEdges3D = new Set();
+  let connCount3D = 0;
+
+  if(showConns){
+    items.forEach(item => {
+      const conns = findConnections(item, items);
+      conns.forEach(target => {
+        const eKey = [item.nodeKey, target.nodeKey].sort().join('|');
+        if(drawnEdges3D.has(eKey)) return;
+        drawnEdges3D.add(eKey);
+        connCount3D++;
+
+        // Segment: from → to → null (separator pentru Plotly)
+        edgeX.push(item.x, target.x, null);
+        edgeY.push(item.y, target.y, null);
+        edgeZ.push(item.z, target.z, null);
+      });
+    });
+  }
+
+  // Trace de conexiuni (linii portocalii, ca în diagrama 2D)
+  if(edgeX.length > 0){
+    traces3D.push({
+      x: edgeX, y: edgeY, z: edgeZ,
+      mode: 'lines',
+      type: 'scatter3d',
+      name: `${connCount3D} relații`,
+      line: {color: '#E67E22', width: 2.5, dash: 'dot'},
+      opacity: 0.45,
+      hoverinfo: 'none',
+      showlegend: true
+    });
+  }
+
+  // Actualizez contorul de conexiuni în UI
+  const connLabel = document.getElementById('connCount3D');
+  if(connLabel) connLabel.textContent = connCount3D > 0 ? `${connCount3D} relații detectate` : 'completează „Relații" în Faza 1';
+
+  const layout3D = {
+    scene: {
+      xaxis: {
+        title: {text: 'Natura Epistemică', font: {size: 11, color: '#0D47A1'}},
+        tickvals: [0, 1, 2, 3],
+        ticktext: AXIS_X_LABELS,
+        tickfont: {size: 8},
+        range: [-0.5, 3.5],
+        gridcolor: '#E0E4EF',
+        zerolinecolor: '#B0B8CF'
+      },
+      yaxis: {
+        title: {text: 'Potențial Generativ', font: {size: 11, color: '#1B5E20'}},
+        tickvals: [0, 1, 2, 3],
+        ticktext: AXIS_Y_LABELS,
+        tickfont: {size: 8},
+        range: [-0.5, 3.5],
+        gridcolor: '#E0E4EF',
+        zerolinecolor: '#B0B8CF'
+      },
+      zaxis: {
+        title: {text: 'Regim Temporal', font: {size: 11, color: '#E65100'}},
+        tickvals: [0, 1, 2],
+        ticktext: AXIS_Z_LABELS,
+        tickfont: {size: 8},
+        range: [-0.3, 2.3],
+        gridcolor: '#E0E4EF',
+        zerolinecolor: '#B0B8CF'
+      },
+      bgcolor: '#FAFBFE',
+      camera: {
+        eye: {x: 1.8, y: 1.6, z: 1.2},
+        center: {x: 0, y: 0, z: -0.1}
+      },
+      aspectmode: 'manual',
+      aspectratio: {x: 1.2, y: 1.2, z: 0.8}
+    },
+    margin: {l: 0, r: 0, t: 36, b: 0},
+    title: {
+      text: `Spațiul Taxonomic Triaxial · ${items.length} parametri activi`,
+      font: {size: 13, color: '#1A1A2E', family: 'Arial'}
+    },
+    paper_bgcolor: 'rgba(0,0,0,0)',
+    legend: {font: {size: 9}, x: 1, y: 0.95, bgcolor: 'rgba(255,255,255,0.85)'}
+  };
+
+  Plotly.newPlot('plot3DMain', traces3D, layout3D, {
+    responsive: true,
+    displayModeBar: true,
+    modeBarButtonsToRemove: ['toImage', 'sendDataToCloud']
+  });
+
+  // ── Proiecții 2D ──
+  renderProjectionXY(items, colorMode);
+  renderProjectionXZ(items, colorMode);
+  renderProjectionYZ(items, colorMode);
+  renderDensity(items);
+}
+
+function make2DTraces(items, colorMode, xKey, yKey){
+  const groups = {};
+  items.forEach(it => {
+    const key = colorMode === 'domain' ? it.domain : colorMode === 'epistemic' ? it.typeLabel : colorMode === 'temporal' ? it.tempLabel : it.opLabel;
+    if(!groups[key]) groups[key] = {items:[], color: getColor3D(it, colorMode), name: key};
+    groups[key].items.push(it);
+  });
+  // Mapare chei: proiecțiile 2D folosesc valorile cu jitter determinist deja calculate
+  const jMap = {xRaw:'x', yRaw:'y', zRaw:'z'};
+  const xJ = jMap[xKey] || xKey;
+  const yJ = jMap[yKey] || yKey;
+  return Object.values(groups).map(g => ({
+    x: g.items.map(i => i[xJ]),
+    y: g.items.map(i => i[yJ]),
+    mode: 'markers',
+    type: 'scatter',
+    name: g.name,
+    marker: {
+      size: g.items.map(i => Math.max(6, i.ponder * 4 + 4)),
+      color: g.color,
+      opacity: 0.75,
+      line: {color: '#fff', width: 1}
+    },
+    text: g.items.map(i =>
+      `<b>${i.name}</b><br>${i.domain}<br>Tip: ${i.typeLabel} | Op: ${i.opLabel} | Temp: ${i.tempLabel}<br>Pondere: ${i.ponder}`
+    ),
+    hoverinfo: 'text'
+  }));
+}
+
+function make2DEdges(items, xKey, yKey){
+  const showConns = document.getElementById('showConns3D')?.checked !== false;
+  if(!showConns) return [];
+  const jMap = {xRaw:'x', yRaw:'y', zRaw:'z'};
+  const xJ = jMap[xKey] || xKey;
+  const yJ = jMap[yKey] || yKey;
+  const edgeX = [], edgeY = [];
+  const drawn = new Set();
+  items.forEach(item => {
+    const conns = findConnections(item, items);
+    conns.forEach(target => {
+      const eKey = [item.nodeKey, target.nodeKey].sort().join('|');
+      if(drawn.has(eKey)) return;
+      drawn.add(eKey);
+      edgeX.push(item[xJ], target[xJ], null);
+      edgeY.push(item[yJ], target[yJ], null);
+    });
+  });
+  if(!edgeX.length) return [];
+  return [{
+    x: edgeX, y: edgeY,
+    mode: 'lines', type: 'scatter',
+    line: {color: '#E67E22', width: 1.5, dash: 'dot'},
+    opacity: 0.35,
+    hoverinfo: 'none',
+    showlegend: false
+  }];
+}
+
+function renderProjectionXY(items, colorMode){
+  const traces = make2DTraces(items, colorMode, 'xRaw', 'yRaw');
+  const edges = make2DEdges(items, 'xRaw', 'yRaw');
+  const layout = {
+    xaxis: {title: {text:'Natura Epistemică', font:{size:10}}, tickvals:[0,1,2,3], ticktext:AXIS_X_LABELS, tickfont:{size:8}, range:[-0.5,3.5], gridcolor:'#EEF0F5'},
+    yaxis: {title: {text:'Potențial Generativ', font:{size:10}}, tickvals:[0,1,2,3], ticktext:AXIS_Y_LABELS, tickfont:{size:8}, range:[-0.5,3.5], gridcolor:'#EEF0F5'},
+    margin: {l:80, r:10, t:10, b:50},
+    paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor:'#FAFBFE',
+    showlegend: false,
+    annotations: [
+      {x:0.5, y:0.5, text:'Reproductiv-<br>Constrâns', showarrow:false, font:{size:8, color:'#CCC'}, xref:'x', yref:'y'},
+      {x:2.5, y:2.5, text:'Emergent-<br>Interpretativ', showarrow:false, font:{size:8, color:'#CCC'}, xref:'x', yref:'y'},
+      {x:0.5, y:2.5, text:'Emergent-<br>Constrâns', showarrow:false, font:{size:8, color:'#CCC'}, xref:'x', yref:'y'},
+      {x:2.5, y:0.5, text:'Reproductiv-<br>Interpretativ', showarrow:false, font:{size:8, color:'#CCC'}, xref:'x', yref:'y'}
+    ],
+    shapes: [
+      {type:'line', x0:1.5, y0:-0.5, x1:1.5, y1:3.5, line:{color:'#E0E4EF', width:1, dash:'dot'}},
+      {type:'line', x0:-0.5, y0:1.5, x1:3.5, y1:1.5, line:{color:'#E0E4EF', width:1, dash:'dot'}}
+    ]
+  };
+  Plotly.newPlot('plotXY', [...edges, ...traces], layout, {responsive:true, displayModeBar:false});
+}
+
+function renderProjectionXZ(items, colorMode){
+  const traces = make2DTraces(items, colorMode, 'xRaw', 'zRaw');
+  const edges = make2DEdges(items, 'xRaw', 'zRaw');
+  const layout = {
+    xaxis: {title:{text:'Natura Epistemică', font:{size:10}}, tickvals:[0,1,2,3], ticktext:AXIS_X_LABELS, tickfont:{size:8}, range:[-0.5,3.5], gridcolor:'#EEF0F5'},
+    yaxis: {title:{text:'Regim Temporal', font:{size:10}}, tickvals:[0,1,2], ticktext:AXIS_Z_LABELS, tickfont:{size:8}, range:[-0.3,2.3], gridcolor:'#EEF0F5'},
+    margin: {l:90, r:10, t:10, b:50},
+    paper_bgcolor:'rgba(0,0,0,0)', plot_bgcolor:'#FAFBFE',
+    showlegend: false,
+    shapes: [
+      {type:'line', x0:-0.3, y0:-0.1, x1:3.3, y1:2.1, line:{color:'#FF9800', width:1.5, dash:'dash'}, opacity:0.3}
+    ],
+    annotations: [
+      {x:3.2, y:2.05, text:'corelație<br>structurală', showarrow:false, font:{size:7, color:'#FF9800'}}
+    ]
+  };
+  Plotly.newPlot('plotXZ', [...edges, ...traces], layout, {responsive:true, displayModeBar:false});
+}
+
+function renderProjectionYZ(items, colorMode){
+  const traces = make2DTraces(items, colorMode, 'yRaw', 'zRaw');
+  const edges = make2DEdges(items, 'yRaw', 'zRaw');
+  const layout = {
+    xaxis: {title:{text:'Potențial Generativ', font:{size:10}}, tickvals:[0,1,2,3], ticktext:AXIS_Y_LABELS, tickfont:{size:8}, range:[-0.5,3.5], gridcolor:'#EEF0F5'},
+    yaxis: {title:{text:'Regim Temporal', font:{size:10}}, tickvals:[0,1,2], ticktext:AXIS_Z_LABELS, tickfont:{size:8}, range:[-0.3,2.3], gridcolor:'#EEF0F5'},
+    margin: {l:90, r:10, t:10, b:50},
+    paper_bgcolor:'rgba(0,0,0,0)', plot_bgcolor:'#FAFBFE',
+    showlegend: false
+  };
+  Plotly.newPlot('plotYZ', [...edges, ...traces], layout, {responsive:true, displayModeBar:false});
+}
+
+function renderDensity(items){
+  // Histogram-like density on each axis
+  const xCounts = [0,0,0,0]; // HA, HC, FL, NG
+  const yCounts = [0,0,0,0]; // D, C, O, F
+  const zBins = [0,0,0]; // early, progressive, late
+  
+  items.forEach(it => {
+    xCounts[it.xRaw]++;
+    yCounts[it.yRaw]++;
+    // Axa Z: bin direct din valoarea manuală T=0, P=1, L=2
+    zBins[it.zRaw]++;
+  });
+
+  const traces = [
+    {
+      x: AXIS_X_LABELS, y: xCounts, type: 'bar', name: 'Nat. Epistemică',
+      marker: {color: ['#8B0000','#7B4100','#2E4B8C','#1F6B3E'], opacity:0.8},
+      xaxis: 'x', yaxis: 'y'
+    },
+    {
+      x: AXIS_Y_LABELS, y: yCounts, type: 'bar', name: 'Pot. Generativ',
+      marker: {color: ['#8B0000','#1E5799','#4A235A','#7B4100'], opacity:0.8},
+      xaxis: 'x2', yaxis: 'y2'
+    },
+    {
+      x: AXIS_Z_LABELS, y: zBins, type: 'bar', name: 'Reg. Temporal',
+      marker: {color: ['#E65100','#F57C00','#FFB74D'], opacity:0.8},
+      xaxis: 'x3', yaxis: 'y3'
+    }
+  ];
+
+  const layout = {
+    grid: {rows:3, columns:1, pattern:'independent', ygap:0.12},
+    xaxis: {tickfont:{size:7.5}, title:{text:'', font:{size:9}}},
+    yaxis: {title:{text:'Nr.', font:{size:9}}, tickfont:{size:8}},
+    xaxis2: {tickfont:{size:7.5}},
+    yaxis2: {title:{text:'Nr.', font:{size:9}}, tickfont:{size:8}},
+    xaxis3: {tickfont:{size:7.5}},
+    yaxis3: {title:{text:'Nr.', font:{size:9}}, tickfont:{size:8}},
+    margin: {l:40, r:10, t:10, b:30},
+    paper_bgcolor:'rgba(0,0,0,0)', plot_bgcolor:'#FAFBFE',
+    showlegend: false,
+    bargap: 0.3,
+    annotations: [
+      {text:'<b>Axa I — Epistemică</b>', x:0.5, y:1.0, xref:'paper', yref:'paper', showarrow:false, font:{size:9, color:'#0D47A1'}},
+      {text:'<b>Axa III — Generativă</b>', x:0.5, y:0.64, xref:'paper', yref:'paper', showarrow:false, font:{size:9, color:'#1B5E20'}},
+      {text:'<b>Axa II — Temporală</b>', x:0.5, y:0.30, xref:'paper', yref:'paper', showarrow:false, font:{size:9, color:'#E65100'}}
+    ]
+  };
+
+  Plotly.newPlot('plotDensity', traces, layout, {responsive:true, displayModeBar:false});
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// RADAR PE DOMENII — vizualizarea profilului decizional al studentului
+// ═══════════════════════════════════════════════════════════════════════════
+
+const RADAR_DOMAIN_NAMES = ['Fizico-Morfologic','Functional-Programatic','Normativ-Reglementar','Perceptiv-Spatial','Cultural-Simbolic'];
+const RADAR_DOMAIN_COLORS = ['#2E4B8C','#1F6B3E','#8B0000','#4A235A','#7D6608'];
+
+function computeDomainAverages(){
+  const avgs = [];
+  let paramIdx = 0;
+  DOMAINS.forEach((d, di) => {
+    let sum = 0, count = 0;
+    d.params.forEach((p, i) => {
+      const s = gs(d.id, i);
+      sum += s.ponder;
+      count++;
+    });
+    avgs.push(count > 0 ? sum / count : 0);
+  });
+  return avgs;
+}
+
+function renderRadarStudent(){
+  const avgs = computeDomainAverages();
+  const hasData = avgs.some(v => v > 0);
+  
+  if(!hasData){
+    document.getElementById('radarStudentChart').innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted);font-size:11px;text-align:center"><div>Acorda ponderi parametrilor in Faza 1<br>pentru a genera diagrama radar.</div></div>';
+    document.getElementById('radarStudentTable').innerHTML = '';
+    document.getElementById('radarInterpretation').innerHTML = '';
+    return;
+  }
+  
+  // Radar chart
+  const radarData = [{
+    r: [...avgs, avgs[0]], // close the polygon
+    theta: [...RADAR_DOMAIN_NAMES.map(n => n.split('-')[0]), RADAR_DOMAIN_NAMES[0].split('-')[0]],
+    type: 'scatterpolar',
+    fill: 'toself',
+    fillcolor: 'rgba(46,75,140,0.15)',
+    line: {color: '#2E4B8C', width: 2.5},
+    marker: {size: 6, color: RADAR_DOMAIN_COLORS.concat(RADAR_DOMAIN_COLORS[0])},
+    name: 'Profilul meu'
+  }];
+  
+  Plotly.newPlot('radarStudentChart', radarData, {
+    polar: {
+      radialaxis: {range:[0,5], gridcolor:'#E0E4EF', linecolor:'#E0E4EF', tickfont:{size:9,color:'#7A7F96'}, dtick:1},
+      angularaxis: {gridcolor:'#E0E4EF', linecolor:'#D8DCE8', tickfont:{size:10,color:'#1A1A2E',weight:'bold'}}
+    },
+    paper_bgcolor: 'rgba(0,0,0,0)',
+    margin: {l:60, r:60, t:20, b:20},
+    showlegend: false
+  }, {responsive:true, displayModeBar:false});
+  
+  // Table
+  const maxVal = Math.max(...avgs);
+  const maxIdx = avgs.indexOf(maxVal);
+  const minVal = Math.min(...avgs);
+  const minIdx = avgs.indexOf(minVal);
+  
+  let tableHTML = '<div style="margin-bottom:8px">';
+  RADAR_DOMAIN_NAMES.forEach((name, i) => {
+    const pct = avgs[i] / 5 * 100;
+    const isMax = i === maxIdx && avgs[i] > 0;
+    const isMin = i === minIdx;
+    tableHTML += '<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #F0F2F8">';
+    tableHTML += '<div style="width:8px;height:8px;border-radius:50%;background:' + RADAR_DOMAIN_COLORS[i] + ';flex-shrink:0"></div>';
+    tableHTML += '<div style="flex:1;font-size:10.5px;font-weight:' + (isMax?'700':'500') + ';color:#1A1A2E">' + name + '</div>';
+    tableHTML += '<div style="width:80px;height:5px;background:#E0E0E0;border-radius:3px;overflow:hidden"><div style="height:100%;width:' + pct + '%;background:' + RADAR_DOMAIN_COLORS[i] + ';border-radius:3px"></div></div>';
+    tableHTML += '<div style="font-family:monospace;font-size:12px;font-weight:700;min-width:28px;text-align:right;color:' + RADAR_DOMAIN_COLORS[i] + '">' + avgs[i].toFixed(1) + '</div>';
+    if(isMax) tableHTML += '<span style="font-size:8px;padding:1px 5px;border-radius:3px;background:#E3EEFF;color:#2E4B8C;font-weight:700">MAX</span>';
+    tableHTML += '</div>';
+  });
+  tableHTML += '</div>';
+  document.getElementById('radarStudentTable').innerHTML = tableHTML;
+  
+  // Interpretation
+  let interp = '';
+  const dominant = RADAR_DOMAIN_NAMES[maxIdx];
+  const weak = RADAR_DOMAIN_NAMES[minIdx];
+  const totalActive = DOMAINS.reduce((s,d) => s + d.params.reduce((ss,_,i) => ss + (gs(d.id,i).ponder > 0 ? 1 : 0), 0), 0);
+  
+  if(maxVal > 3) {
+    interp += 'Domeniul <strong>' + dominant + '</strong> domina profilul tau (medie ' + avgs[maxIdx].toFixed(1) + '/5). Aceasta indica o investitie decizionala concentrata — semn ca ai identificat directia conceptuala. ';
+  }
+  if(maxVal - minVal < 0.8 && totalActive > 20) {
+    interp += '<br><br><strong style="color:#8B0000">Atentie:</strong> profilul tau este aproape uniform (diferenta max-min = ' + (maxVal-minVal).toFixed(1) + '). Aceasta poate indica ca nu ai facut inca prima decizie conceptuala: ce domeniu conteaza cel mai mult?';
+  }
+  if(minVal < 1 && totalActive > 15) {
+    interp += '<br><br>Domeniul <strong>' + weak + '</strong> are o investitie minima (' + avgs[minIdx].toFixed(1) + '). Verifica daca aceasta e o decizie deliberata (concentrare) sau o omisiune.';
+  }
+  if(!interp) interp = 'Completeaza mai multi parametri pentru a obtine o lectura interpretativa.';
+  
+  document.getElementById('radarInterpretation').innerHTML = interp;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SUBMISIE CĂTRE PROFESOR — serializare + POST către Google Apps Script
+// ═══════════════════════════════════════════════════════════════════════════
+
+// ▼▼▼ PUNE AICI URL-ul Apps Script primit după deploy ▼▼▼
+const APPS_SCRIPT_URL = 'PUNE_URL_AICI';
+// ▲▲▲ Exemplu: https://script.google.com/macros/s/AKfycb.../exec ▲▲▲
+
+function getSubmitVersion(){
+  const student = document.getElementById('stName').value.trim();
+  if(!student) return 1;
+  const key = 'taxoVersion_' + student.toLowerCase().replace(/\s+/g,'_');
+  return parseInt(localStorage.getItem(key) || '0') + 1;
+}
+function incrementVersion(){
+  const student = document.getElementById('stName').value.trim();
+  if(!student) return;
+  const key = 'taxoVersion_' + student.toLowerCase().replace(/\s+/g,'_');
+  const v = parseInt(localStorage.getItem(key) || '0') + 1;
+  localStorage.setItem(key, v.toString());
+}
+
+function serializeAll(){
+  const student = document.getElementById('stName').value.trim();
+  const sit = document.getElementById('sitName').value.trim();
+  const version = getSubmitVersion();
+  
+  // Parametri: 52 obiecte cu pondere, op, temp
+  const params = [];
+  const relatii = [];
+  
+  DOMAINS.forEach((d, di) => {
+    d.params.forEach((p, i) => {
+      const s = gs(d.id, i);
+      params.push({
+        ponder: s.ponder,
+        op: s.op,
+        temp: s.temp
+      });
+      // Relații: doar parametri cu conținut
+      if(s.ponder >= 1 && (s.semnif || s.relatie)){
+        relatii.push({
+          domeniu: d.name,
+          parametru: p.n,
+          tip: TYPES[p.t].l,
+          pondere: s.ponder,
+          operatie: OPS[s.op].l,
+          temporal: TEMPS[s.temp].l,
+          semnificatie: s.semnif || '',
+          relatie: s.relatie || ''
+        });
+      }
+    });
+  });
+  
+  // Narative
+  const narative = {
+    constrangeri: gv('dirN'),
+    ipoteza1: gv('conH1'),
+    ipoteza2: gv('conH2'),
+    ipoteza3: gv('conH3'),
+    configConceptuala: gv('conCfg'),
+    optimizareA: gv('optH1'),
+    optimizareB: gv('optH2'),
+    semnificatiiEmergente: gv('optMn'),
+    conceptSursa: gv('concSrc'),
+    fitness: gv('fitN'),
+    varianteSolutie: gv('solN')
+  };
+  
+  return { student, sit, version, params, relatii, narative };
+}
+
+function showSubmit(){
+  const student = document.getElementById('stName').value.trim();
+  if(!student){toast('Scrie mai întâi numele tău în câmpul din header','terr');return;}
+  
+  // Calculează statistici pentru preview
+  const data = serializeAll();
+  const active = data.params.filter(p=>p.ponder > 0).length;
+  const rels = data.relatii.length;
+  const hasConcept = data.narative.conceptSursa ? 'Da' : 'Nu';
+  
+  document.getElementById('submitInfo').innerHTML = 
+    `<strong>${data.student}</strong> · Sit: ${data.sit || '(nespecificat)'} · <strong>Versiune ${data.version}</strong><br>` +
+    `${active} / 52 parametri activi · ${rels} relații declarate · Concept-sursă: ${hasConcept}`;
+  
+  document.getElementById('submitOk').classList.remove('show');
+  document.getElementById('submitError').style.display = 'none';
+  document.getElementById('submitProgWrap').classList.remove('show');
+  document.getElementById('submitPasscode').value = '';
+  document.getElementById('submitBg').classList.add('show');
+}
+function hideSubmit(){ document.getElementById('submitBg').classList.remove('show'); }
+
+async function doSubmit(){
+  const passcode = document.getElementById('submitPasscode').value.trim();
+  if(!passcode){toast('Introdu codul de atelier','terr');return;}
+  
+  if(APPS_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycby5kf0wpDg9cGHAFKkgqvZFxOCEPLXDG0LBzwd7T9lVteXh0vAhpRw6bSX67DMogsGWuw/exec'){
+    toast('URL-ul Apps Script nu este configurat!','terr');return;
+  }
+  
+  const data = serializeAll();
+  data.passcode = passcode;
+  
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Se trimite...';
+  document.getElementById('submitProgWrap').classList.add('show');
+  document.getElementById('submitProgFill').style.width = '20%';
+  document.getElementById('submitProgLabel').textContent = 'Se trimit datele...';
+  document.getElementById('submitError').style.display = 'none';
+  document.getElementById('submitOk').classList.remove('show');
+  
+  try {
+    // PASUL 1: Trimite datele cu mode no-cors
+    // Request-ul ajunge la server, dar browser-ul nu poate citi răspunsul
+    // din cauza restricțiilor CORS ale Google Apps Script
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {'Content-Type': 'text/plain'},
+      body: JSON.stringify(data)
+    });
+    
+    document.getElementById('submitProgFill').style.width = '50%';
+    document.getElementById('submitProgLabel').textContent = 'Datele au fost trimise, se verifică...';
+    
+    // PASUL 2: Așteaptă 4 secunde ca Apps Script să proceseze
+    await new Promise(function(resolve){ setTimeout(resolve, 4000); });
+    
+    document.getElementById('submitProgFill').style.width = '75%';
+    
+    // PASUL 3: Verifică via GET (endpoint public, fără cheie)
+    // Cere serverului să confirme dacă datele au ajuns
+    const verifyUrl = APPS_SCRIPT_URL + 
+      '?action=verify' +
+      '&student=' + encodeURIComponent(data.student) + 
+      '&version=' + encodeURIComponent(data.version);
+    
+    const verifyResp = await fetch(verifyUrl);
+    const verifyResult = await verifyResp.json();
+    
+    document.getElementById('submitProgFill').style.width = '100%';
+    
+    if(verifyResult.success && verifyResult.found){
+      document.getElementById('submitProgLabel').textContent = 'Confirmat!';
+      document.getElementById('submitConfirm').textContent = 
+        'Datele pentru ' + data.student + ' (v' + data.version + ') au fost salvate cu succes.';
+      document.getElementById('submitOk').classList.add('show');
+      incrementVersion();
+      toast('✓ Datele au fost trimise și confirmate!','tok');
+    } else {
+      // Datele nu s-au găsit încă — posibil codul de atelier e greșit
+      // sau procesarea durează mai mult
+      document.getElementById('submitProgLabel').textContent = 'Verificare...';
+      
+      // Reîncercăm după încă 3 secunde
+      await new Promise(function(resolve){ setTimeout(resolve, 3000); });
+      const retry = await fetch(verifyUrl);
+      const retryResult = await retry.json();
+      
+      if(retryResult.success && retryResult.found){
+        document.getElementById('submitProgFill').style.width = '100%';
+        document.getElementById('submitProgLabel').textContent = 'Confirmat!';
+        document.getElementById('submitConfirm').textContent = 
+          'Datele pentru ' + data.student + ' (v' + data.version + ') au fost salvate.';
+        document.getElementById('submitOk').classList.add('show');
+        incrementVersion();
+        toast('✓ Datele au fost trimise și confirmate!','tok');
+      } else {
+        document.getElementById('submitError').style.display = 'block';
+        document.getElementById('submitError').innerHTML = 
+          '✕ Datele au fost trimise dar nu au putut fi confirmate.<br><br>' +
+          'Cauze posibile: codul de atelier este incorect, sau serverul procesează mai lent.<br>' +
+          'Verifică cu profesorul dacă datele au ajuns, sau descarcă backup-ul JSON.';
+        document.getElementById('submitProgWrap').classList.remove('show');
+      }
+    }
+  } catch(err){
+    document.getElementById('submitError').style.display = 'block';
+    document.getElementById('submitError').innerHTML = 
+      '✕ Eroare: ' + err.message + 
+      '<br><br>Descarcă backup-ul JSON și trimite-l profesorului manual.';
+    document.getElementById('submitProgWrap').classList.remove('show');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '⬆ Trimite acum';
+  }
+}
+
+function downloadJSON(){
+  const data = serializeAll();
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], {type:'application/json'});
+  const fn = `Taxonomie_${data.student.replace(/[^a-zA-Z0-9_]/g,'_')}_v${data.version}_${new Date().toISOString().split('T')[0]}.json`;
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = fn;
+  a.click();
+  toast('✓ JSON descărcat: ' + fn, 'tok');
+}
+
+// Închide submit modal la click pe fundal
+document.getElementById('submitBg').addEventListener('click', function(e){
+  if(e.target === this) hideSubmit();
+});
+</script>
+</body>
+</html>
